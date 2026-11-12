@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="一個從兩千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="聖誕佳音接力">
+<meta property="og:title" content="這個佳音，傳到你了 🌟｜聖誕佳音接力">
+<meta property="og:description" content="一個從兩千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
+<meta property="og:url" content="https://vuraly7-dev.github.io/xmas-church-2026/">
+<meta property="og:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="這個佳音，傳到你了 🌟｜聖誕佳音接力">
+<meta name="twitter:description" content="一個從兩千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
+<meta name="twitter:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og.png">
+<meta name="theme-color" content="#05071a">
+<title>這個佳音，傳到你了｜聖誕佳音接力</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#f6d47a;--gold2:#ffe9a8;--text:#f4f1ea;--muted:#a8b3c9;--night:#070a1a}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--text);background:#000}
+.stage{position:fixed;inset:0;max-width:520px;margin:0 auto;overflow:hidden;background:linear-gradient(180deg,#05071a 0%,#0d1433 60%,#1b2350 100%);transition:background 1.5s}
+.stage.glory{background:radial-gradient(ellipse at 50% 20%,#6b5a2a 0%,#1d1a3a 55%,#0d1433 100%)}
+canvas#sky{position:absolute;inset:0;z-index:0}
+.scene{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 28px) 22px calc(env(safe-area-inset-bottom) + 22px);animation:fadein .7s ease}
+@keyframes fadein{from{opacity:0}}
+.k{font-size:12px;letter-spacing:.3em;color:var(--gold);text-align:center}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:36px;line-height:1.35;text-align:center;margin:10px 0 8px}
+h1 em{font-style:normal;color:var(--gold)}
+.lead{text-align:center;color:#cfd6e6;line-height:1.85;font-size:15px}
+.verse{font-family:"Noto Serif TC",serif;font-size:19px;line-height:2;text-align:center;color:#fff;text-shadow:0 2px 18px #000c;animation:fadein 1s ease}
+.verse small{display:block;font-family:"Noto Sans TC";font-size:12px;color:var(--gold);margin-top:6px;letter-spacing:.1em}
+.grow{flex:1}
+.btn{display:block;width:100%;font:inherit;font-weight:700;font-size:16.5px;border:0;border-radius:14px;padding:15px;cursor:pointer;
+  background:linear-gradient(180deg,#f8dc8a,#e5b94e);color:#2a1d05;box-shadow:0 8px 26px #e5b94e44}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid #ffffff33;box-shadow:none;margin-top:9px}
+.btn:disabled{opacity:.4}
+.hint{text-align:center;font-size:13px;color:var(--muted);margin-top:10px}
+.foot{text-align:center;font-size:11px;color:#6d7894;margin-top:12px;line-height:1.7}
+
+/* constellation */
+.const{position:relative;flex:1;min-height:200px;margin:8px -10px}
+.const svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.chainlist{max-height:150px;overflow-y:auto;background:#ffffff0a;border:1px solid #ffffff18;border-radius:14px;padding:6px 12px;margin-bottom:12px;font-size:13.5px}
+.chainlist div{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed #ffffff14;line-height:1.5}
+.chainlist div:last-child{border:0}
+.chainlist b{color:var(--gold2);white-space:nowrap}
+.chainlist span{color:#d9dfeb}
+.chainlist i{font-style:normal;color:#6d7894;font-size:11px;white-space:nowrap;margin-left:auto}
+.count{font-family:"Noto Serif TC",serif;font-weight:900;font-size:58px;color:var(--gold);text-align:center;line-height:1}
+.count small{font-size:18px;color:var(--text)}
+
+/* sheep */
+.field{position:relative;flex:1;margin:10px -22px 0}
+.sheep{position:absolute;font-size:38px;cursor:pointer;transition:left 1.6s ease-out,top 1.6s ease-out,transform .2s;user-select:none;filter:drop-shadow(0 4px 6px #0008)}
+.sheep.stray{animation:wob .5s infinite}
+@keyframes wob{50%{transform:rotate(-8deg)}}
+.fire{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);font-size:34px;filter:drop-shadow(0 0 22px #ff9a3c)}
+.bar{height:6px;background:#ffffff1a;border-radius:9px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
+.hills{position:absolute;left:0;right:0;bottom:0;height:24%;z-index:1;background:radial-gradient(ellipse at 30% 100%,#0e1a1a 60%,transparent 61%),radial-gradient(ellipse at 80% 100%,#101f1d 55%,transparent 56%);pointer-events:none}
+
+/* angels */
+.tapzone{position:absolute;inset:0;z-index:1}
+.spark{position:absolute;z-index:3;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#fff6d5;box-shadow:0 0 18px 8px #ffe9a8aa;animation:spk 2.4s ease-in-out infinite;pointer-events:none}
+@keyframes spk{50%{transform:scale(1.6);opacity:.7}}
+
+/* walk */
+.road{position:relative;flex:1;margin:0 -22px}
+.town{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%) scale(.35);transition:transform .9s ease;text-align:center}
+.stable{width:150px;height:110px;position:relative;margin:0 auto}
+.stable .roof{position:absolute;left:-12px;right:-12px;top:0;height:48px;background:#3b2a1c;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.stable .body{position:absolute;left:8px;right:8px;top:44px;bottom:0;background:#2a1e14;border-radius:4px}
+.stable .glow{position:absolute;left:50%;bottom:6px;width:60px;height:34px;margin-left:-30px;border-radius:50% 50% 8px 8px;background:radial-gradient(ellipse at 50% 70%,#fff4c9,#f6d47a 40%,#e59a3a00 72%);filter:blur(1px);animation:breath 3s ease-in-out infinite}
+@keyframes breath{50%{opacity:.75}}
+.bstar{position:absolute;left:50%;top:-90px;transform:translateX(-50%);font-size:40px;filter:drop-shadow(0 0 20px #ffe9a8)}
+.beam{position:absolute;left:50%;top:-60px;width:2px;height:70px;margin-left:-1px;background:linear-gradient(#ffe9a8,transparent)}
+.steps{text-align:center;font-size:26px;letter-spacing:6px;margin-top:6px;min-height:34px}
+
+/* form */
+input.name{width:100%;font:inherit;font-size:17px;color:var(--text);background:#ffffff10;border:1px solid #ffffff2a;border-radius:12px;padding:13px 14px;outline:none;margin:6px 0 14px}
+input.name:focus{border-color:var(--gold)}
+label{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
+.chip{font:inherit;font-size:14px;color:var(--text);background:#ffffff0f;border:1px solid #ffffff2a;border-radius:99px;padding:8px 13px;cursor:pointer}
+.chip.on{background:var(--gold);color:#2a1d05;border-color:var(--gold);font-weight:700}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;background:#fff;color:#111;padding:9px 16px;border-radius:99px;font-size:14px;transition:.3s;z-index:60;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <canvas id="sky"></canvas>
+  <div id="app"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== 資料：佳音鏈存在網址 #g= 裡，不經過任何伺服器 ===== */
+const MAX_KEEP = 24, NAME_MAX = 8, BLESS_MAX = 14;
+const ORIGIN = {n:1, c:[["天使","不要懼怕！大喜的信息"]]};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const clip = (s,n) => [...String(s||"")].slice(0,n).join("");
+function enc(o){ const b=btoa(unescape(encodeURIComponent(JSON.stringify(o)))); return b.replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function dec(s){
+  try{
+    s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4) s+="=";
+    const o=JSON.parse(decodeURIComponent(escape(atob(s))));
+    if(!o || !Array.isArray(o.c) || !o.c.length) return null;
+    const c=o.c.slice(-MAX_KEEP).filter(x=>Array.isArray(x)).map(x=>[clip(x[0],NAME_MAX)||"一位朋友", clip(x[1],BLESS_MAX)]);
+    const n=Math.max(c.length, Math.min(999999, parseInt(o.n)||c.length));
+    return {n, c};
+  }catch(e){ return null; }
+}
+function readChain(){
+  const m=(location.hash||"").match(/g=([A-Za-z0-9_-]+)/);
+  return (m && dec(m[1])) || null;
+}
+const baseUrl = () => location.origin + location.pathname;
+
+const S = { chain:null, first:false, me:null };
+const app = document.getElementById("app"), stage=document.getElementById("stage");
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+
+/* ===== 星空背景 ===== */
+const cv=document.getElementById("sky"), cx=cv.getContext("2d"); let stars=[];
+function resize(){ const w=stage.clientWidth,h=stage.clientHeight,d=devicePixelRatio||1; cv.width=w*d; cv.height=h*d; cv.style.width=w+"px"; cv.style.height=h+"px"; cx.setTransform(d,0,0,d,0,0);
+  stars=Array.from({length:150},()=>({x:Math.random()*w,y:Math.random()*h*.85,r:Math.random()*1.3+.2,p:Math.random()*6.28})); }
+function twinkle(t){ const w=stage.clientWidth,h=stage.clientHeight; cx.clearRect(0,0,w,h);
+  for(const s of stars){ cx.globalAlpha=.35+.65*Math.abs(Math.sin(t/1400+s.p)); cx.fillStyle="#fff"; cx.beginPath(); cx.arc(s.x,s.y,s.r,0,6.28); cx.fill(); }
+  cx.globalAlpha=1; requestAnimationFrame(twinkle); }
+addEventListener("resize",resize); resize(); requestAnimationFrame(twinkle);
+
+/* ===== 星座圖 ===== */
+function hash(str){ let h=2166136261; for(const ch of str){ h^=ch.codePointAt(0); h=Math.imul(h,16777619); } return (h>>>0)/4294967295; }
+function constellation(list, highlightLast){
+  const W=100, H=100, n=list.length;
+  const pts=list.map((x,i)=>{
+    const t = n===1 ? .5 : i/(n-1);
+    const y = 90 - t*78;
+    const x0 = 50 + Math.sin(i*1.3 + hash(x[0]+i)*3)*28 + (hash(x[0]+"x"+i)-.5)*14;
+    return [Math.max(8,Math.min(92,x0)), y];
+  });
+  let path=""; pts.forEach((p,i)=>{ path+=(i?"L":"M")+p[0]+" "+p[1]+" "; });
+  const circles=pts.map((p,i)=>{
+    const last = highlightLast && i===n-1, first=i===0;
+    const r = last?2.6:first?2.2:1.4;
+    const col = last?"#fff":first?"#ffe9a8":"#f6d47a";
+    const label = (last||first||n<=8||i%Math.ceil(n/6)===0) ? `<text x="${p[0]+ (p[0]>70?-3:3)}" y="${p[1]+1}" font-size="3.4" fill="${last?"#fff":"#cfd6e6"}" text-anchor="${p[0]>70?"end":"start"}" font-family="Noto Sans TC">${esc(list[i][0])}</text>`:"";
+    return `<circle cx="${p[0]}" cy="${p[1]}" r="${r*2.4}" fill="${col}" opacity=".18"><animate attributeName="opacity" values=".1;.35;.1" dur="${2+i%3}s" repeatCount="indefinite"/></circle>
+            <circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${col}">${last?'<animate attributeName="r" values="2.2;3.2;2.2" dur="1.6s" repeatCount="indefinite"/>':""}</circle>${label}`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+    <path d="${path}" fill="none" stroke="#f6d47a" stroke-width=".35" stroke-dasharray="1 1.2" opacity=".75"/>
+    ${circles}</svg>`;
+}
+function chainHTML(list, offset){
+  return list.slice().reverse().map((x,i)=>{
+    const idx = offset + list.length - i;
+    return `<div><b>${esc(x[0])}</b><span>${esc(x[1]||"")}</span><i>第 ${idx} 站</i></div>`;
+  }).join("");
+}
+
+/* ===== 0. 抵達 ===== */
+function arrive(){
+  const ch = readChain();
+  S.first = !ch; S.chain = ch || JSON.parse(JSON.stringify(ORIGIN));
+  const n=S.chain.n, list=S.chain.c, offset=n-list.length;
+  app.innerHTML=`<div class="scene">
+    <div class="k">聖誕佳音接力</div>
+    <h1>${S.first?"兩千年前的好消息，<br>今晚<em>傳到你了</em>":"這個佳音，<br><em>傳到你了</em>"}</h1>
+    ${S.first
+      ?`<p class="lead">從伯利恆的夜晚開始，<br>這個好消息一站一站傳到今天。<br>現在，由你接下第 2 棒。</p>`
+      :`<div class="count" style="margin-top:6px">${n}<small> 站</small></div><p class="lead">這個好消息已經經過 ${n} 站，<br>最後一位是 <b style="color:var(--gold2)">${esc(list[list.length-1][0])}</b>，把它傳給了你。</p>`}
+    <div class="const">${constellation(list,false)}</div>
+    ${S.first?"":`<div class="chainlist">${chainHTML(list.slice(-6), n-Math.min(6,list.length))}</div>`}
+    <button class="btn" id="go">收下這個佳音（約 2 分鐘）</button>
+    <div class="foot">純屬原創互動故事・經文取自《和合本》・© 2026 liva</div>
+  </div>`;
+  document.getElementById("go").onclick=sheep;
+}
+
+/* ===== 1. 看守羊群 ===== */
+function sheep(){
+  app.innerHTML=`<div class="scene">
+    <div class="k">第一幕・伯利恆的野地</div>
+    <p class="verse" style="margin-top:14px">在伯利恆之野地裡有牧羊的人，<br>夜間按著更次看守羊群。<small>路加福音 2:8</small></p>
+    <p class="hint">你是值夜班的牧羊人。羊走散了，點牠們帶回火堆旁！</p>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="field" id="field"><div class="fire">🔥</div></div>
+  </div><div class="hills"></div>`;
+  const F=document.getElementById("field"), fw=()=>F.clientWidth, fh=()=>F.clientHeight;
+  const home=i=>[fw()/2-19+Math.cos(i*1.05)*58, fh()*.62+Math.sin(i*1.05)*34];
+  const sh=[];
+  for(let i=0;i<6;i++){ const d=document.createElement("div"); d.className="sheep"; d.textContent="🐑";
+    const [x,y]=home(i); d.style.left=x+"px"; d.style.top=y+"px"; F.appendChild(d); sh.push(d);
+    d.addEventListener("pointerdown",e=>{ e.preventDefault(); if(!d.classList.contains("stray")) return; d.classList.remove("stray"); const [hx,hy]=home(i); d.style.left=hx+"px"; d.style.top=hy+"px"; saved++; }); }
+  let saved=0, t=0; const DUR=16;
+  const iv=setInterval(()=>{ t+=1; document.getElementById("bar").style.width=Math.min(100,t/DUR*100)+"%";
+    const calm=sh.filter(s=>!s.classList.contains("stray"));
+    if(calm.length && t<DUR-1){ const s=calm[Math.floor(Math.random()*calm.length)]; s.classList.add("stray");
+      s.style.left=(Math.random()<.5? 4+Math.random()*30 : fw()-60-Math.random()*30)+"px"; s.style.top=(fh()*.18+Math.random()*fh()*.5)+"px"; }
+    if(t>=DUR){ clearInterval(iv); sh.forEach((s,i)=>{ s.classList.remove("stray"); const [x,y]=home(i); s.style.left=x+"px"; s.style.top=y+"px"; }); setTimeout(angels,1400); }
+  },1000);
+}
+
+/* ===== 2. 天使顯現 ===== */
+async function angels(){
+  stage.classList.add("glory");
+  app.innerHTML=`<div class="scene" id="as">
+    <div class="tapzone" id="tz"></div>
+    <div class="k" style="position:relative;z-index:2">第二幕・天上的榮光</div>
+    <div class="grow"></div>
+    <div id="vbox" style="position:relative;z-index:2;pointer-events:none"></div>
+    <div class="grow"></div>
+    <div id="act" style="position:relative;z-index:2"></div>
+  </div>`;
+  const vbox=document.getElementById("vbox"), act=document.getElementById("act"), tz=document.getElementById("tz"), sc=document.getElementById("as");
+  const say=(html)=>{ vbox.innerHTML=`<p class="verse">${html}</p>`; };
+  let lights=0;
+  const spawn=(x,y)=>{ const s=document.createElement("div"); s.className="spark"; s.style.left=x+"px"; s.style.top=y+"px"; s.style.animationDelay=(Math.random()*2)+"s"; sc.appendChild(s); lights++; };
+  say(`有主的使者站在他們旁邊，<br>主的榮光四面照著他們；<br>牧羊的人就甚懼怕。<small>路加福音 2:9</small>`);
+  await sleep(2600);
+  act.innerHTML=`<p class="hint">點夜空，讓天上的光一一亮起 ✨ <b id="lc" style="color:var(--gold)">0</b> / 12</p>`;
+  await new Promise(res=>{ tz.onpointerdown=e=>{ const r=sc.getBoundingClientRect(); spawn(e.clientX-r.left,e.clientY-r.top); document.getElementById("lc").textContent=Math.min(lights,12); if(lights>=12){ tz.onpointerdown=null; res(); } }; });
+  act.innerHTML="";
+  say(`那天使對他們說：<br>「不要懼怕！我報給你們大喜的信息，<br>是關乎萬民的；<br>因今天在大衛的城裡，<br>為你們生了救主，就是主基督。」<small>路加福音 2:10–11</small>`);
+  await sleep(1200);
+  act.innerHTML=`<button class="btn" id="n1">繼續</button>`;
+  await new Promise(r=>document.getElementById("n1").onclick=r);
+  act.innerHTML="";
+  const w=sc.clientWidth,h=sc.clientHeight;
+  for(let i=0;i<40;i++){ setTimeout(()=>spawn(Math.random()*w, Math.random()*h*.55), i*60); }
+  say(`忽然，有一大隊天兵同那天使讚美神說：<br><b style="font-size:23px;color:var(--gold2)">「在至高之處榮耀歸與神！<br>在地上平安歸與他所喜悅的人！」</b><small>路加福音 2:13–14</small>`);
+  await sleep(2400);
+  act.innerHTML=`<button class="btn" id="n2">「我們往伯利恆去！」</button>`;
+  document.getElementById("n2").onclick=walk;
+}
+
+/* ===== 3. 往伯利恆去 ===== */
+function walk(){
+  stage.classList.remove("glory");
+  app.innerHTML=`<div class="scene">
+    <div class="k">第三幕・往伯利恆去</div>
+    <p class="verse" style="margin-top:12px;font-size:17px">牧羊的人彼此說：「我們往伯利恆去，<br>看看所成的事，就是主所指示我們的。」<small>路加福音 2:15</small></p>
+    <div class="road"><div class="town" id="town"><div class="stable"><div class="beam"></div><div class="bstar">⭐</div><div class="roof"></div><div class="body"></div><div class="glow"></div></div></div></div>
+    <div class="steps" id="steps"></div>
+    <button class="btn" id="step">往前走 👣</button>
+    <p class="hint" id="sh">他們急忙去了……</p>
+  </div><div class="hills"></div>`;
+  let k=0; const N=7;
+  document.getElementById("step").onclick=async()=>{
+    k++; document.getElementById("steps").textContent="👣".repeat(k);
+    document.getElementById("town").style.transform=`translate(-50%,-50%) scale(${.35+k/N*.85})`;
+    if(k>=N){
+      document.getElementById("step").remove();
+      document.getElementById("sh").innerHTML="";
+      await sleep(700);
+      const sc=document.querySelector(".scene");
+      const v=document.createElement("p"); v.className="verse"; v.style.fontSize="17px";
+      v.innerHTML=`就尋見馬利亞和約瑟，<br>又有那嬰孩臥在馬槽裡。<small>路加福音 2:16</small>`;
+      sc.appendChild(v);
+      await sleep(2600);
+      const v2=document.createElement("p"); v2.className="verse"; v2.style.cssText="font-size:21px;margin-top:10px;color:var(--gold2)";
+      v2.innerHTML=`既然看見，<br>就將天使論這孩子的話傳開了。<small>路加福音 2:17</small>`;
+      sc.appendChild(v2);
+      await sleep(1600);
+      const b=document.createElement("button"); b.className="btn"; b.style.marginTop="12px"; b.textContent="輪到我傳下去 ✨"; b.onclick=form; sc.appendChild(b);
+    }
+  };
+}
+
+/* ===== 4. 點亮自己的星星 ===== */
+const BLESS=["願你平安","以馬內利","神與你同在","願你被愛包圍","聖誕快樂","你是被祝福的","願光照亮你","明年也一起加油"];
+function form(){
+  let pick=BLESS[0];
+  app.innerHTML=`<div class="scene">
+    <div class="k">你的星星</div>
+    <h1 style="font-size:28px">在星路上，<br>留下你的名字</h1>
+    <p class="lead" style="margin-bottom:16px">下一個收到佳音的人，會看見你的名字和祝福。</p>
+    <label>你的暱稱（建議不要用全名）</label>
+    <input class="name" id="nm" maxlength="${NAME_MAX}" placeholder="例如：小君" autocomplete="off">
+    <label>選一句祝福給下一位</label>
+    <div class="chips" id="chips">${BLESS.map((b,i)=>`<button class="chip ${i?"":"on"}" data-b="${b}">${b}</button>`).join("")}</div>
+    <input class="name" id="own" maxlength="${BLESS_MAX}" placeholder="或自己寫一句（${BLESS_MAX} 字內）" autocomplete="off" style="margin-top:4px">
+    <div class="grow"></div>
+    <button class="btn" id="lit">點亮我的星星 ⭐</button>
+    <p class="hint">名字和祝福只存在分享連結裡，本網站不會收集或儲存任何資料。</p>
+  </div>`;
+  document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on")); c.classList.add("on"); pick=c.dataset.b; document.getElementById("own").value=""; });
+  document.getElementById("lit").onclick=()=>{
+    const name=clip(document.getElementById("nm").value.trim(),NAME_MAX)||"一位朋友";
+    const own=clip(document.getElementById("own").value.trim(),BLESS_MAX);
+    S.me=[name, own||pick];
+    const c=S.chain.c.concat([S.me]).slice(-MAX_KEEP);
+    S.next={n:S.chain.n+1, c};
+    done();
+  };
+}
+
+/* ===== 5. 星路與分享 ===== */
+function done(){
+  const nx=S.next, link=baseUrl()+"#g="+enc(nx);
+  try{ history.replaceState(null,"","#g="+enc(nx)); }catch(e){}
+  app.innerHTML=`<div class="scene">
+    <div class="k">你是第 ${nx.n} 站</div>
+    <h1 style="font-size:28px">你的星星，<br><em>亮起來了</em></h1>
+    <div class="const">${constellation(nx.c,true)}</div>
+    <div class="chainlist">${chainHTML(nx.c.slice(-4), nx.n-Math.min(4,nx.c.length))}</div>
+    <button class="btn" id="share">把佳音傳給一位朋友 🌟</button>
+    <button class="btn ghost" id="copy">複製連結</button>
+    <p class="hint" style="line-height:1.8">不轉傳也沒關係——<br>這個好消息，已經是你的了。</p>
+    <div class="foot">傳給不同的人，就會長出不同的星路・© 2026 liva</div>
+  </div>`;
+  const txt=`有一個從兩千年前傳來的好消息，已經經過 ${nx.n} 站，現在傳到你手上了 🌟\n${S.me[0]}：「${S.me[1]}」\n`;
+  document.getElementById("share").onclick=async()=>{
+    try{ if(navigator.share){ await navigator.share({title:"這個佳音，傳到你了",text:txt,url:link}); return; } }catch(e){ if(e && e.name==="AbortError") return; }
+    copy(txt+link);
+  };
+  document.getElementById("copy").onclick=()=>copy(txt+link);
+}
+async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給你想祝福的人 🌟"); }catch(e){ toast("請長按網址列複製連結"); } }
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
+
+arrive();
+</script>
+</body>
+</html>
