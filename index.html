@@ -29,7 +29,7 @@ body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--text);backgroun
 .stage{position:fixed;inset:0;max-width:520px;margin:0 auto;overflow:hidden;background:linear-gradient(180deg,#05071a 0%,#0d1433 60%,#1b2350 100%);transition:background 1.5s}
 .stage.glory{background:radial-gradient(ellipse at 50% 20%,#6b5a2a 0%,#1d1a3a 55%,#0d1433 100%)}
 canvas#sky{position:absolute;inset:0;z-index:0}
-.scene{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 28px) 22px calc(env(safe-area-inset-bottom) + 22px);animation:fadein .7s ease}
+.scene{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(env(safe-area-inset-top) + 28px) 22px calc(env(safe-area-inset-bottom) + 22px);animation:fadein .7s ease}
 @keyframes fadein{from{opacity:0}}
 .k{font-size:12px;letter-spacing:.3em;color:var(--gold);text-align:center}
 h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:36px;line-height:1.35;text-align:center;margin:10px 0 8px}
@@ -46,9 +46,9 @@ h1 em{font-style:normal;color:var(--gold)}
 .foot{text-align:center;font-size:11px;color:#6d7894;margin-top:12px;line-height:1.7}
 
 /* constellation */
-.const{position:relative;flex:1;min-height:200px;margin:8px -10px}
+.const{position:relative;flex:1 0 150px;min-height:150px;margin:8px -10px}
 .const svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.chainlist{max-height:150px;overflow-y:auto;background:#ffffff0a;border:1px solid #ffffff18;border-radius:14px;padding:6px 12px;margin-bottom:12px;font-size:13.5px}
+.chainlist{flex:none;max-height:120px;overflow-y:auto;background:#ffffff0a;border:1px solid #ffffff18;border-radius:14px;padding:6px 12px;margin-bottom:12px;font-size:13.5px}
 .chainlist div{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed #ffffff14;line-height:1.5}
 .chainlist div:last-child{border:0}
 .chainlist b{color:var(--gold2);white-space:nowrap}
@@ -91,6 +91,7 @@ label{font-size:13px;color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
 .chip{font:inherit;font-size:14px;color:var(--text);background:#ffffff0f;border:1px solid #ffffff2a;border-radius:99px;padding:8px 13px;cursor:pointer}
 .chip.on{background:var(--gold);color:#2a1d05;border-color:var(--gold);font-weight:700}
+.mbtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);right:max(10px,calc(50% - 250px));z-index:50;width:36px;height:36px;border-radius:50%;border:1px solid #ffffff33;background:#00000055;color:#fff;font-size:16px;cursor:pointer;display:none}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;background:#fff;color:#111;padding:9px 16px;border-radius:99px;font-size:14px;transition:.3s;z-index:60;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%)}
 </style>
@@ -100,9 +101,168 @@ label{font-size:13px;color:var(--muted)}
   <canvas id="sky"></canvas>
   <div id="app"></div>
 </div>
+<button class="mbtn" id="mb" aria-label="音樂開關">🎵</button>
 <div class="toast" id="toast"></div>
 
 <script>
+
+/* ===== 聲音：全部由本頁程式即時合成，不使用任何錄音或音效檔 =====
+   背景音樂為公有領域的傳統聖誕詩歌旋律，以音樂盒音色重新演奏：
+   〈Silent Night 平安夜〉Franz Xaver Gruber，1818
+   〈Joy to the World 普世歡騰〉Lowell Mason 編曲，1839 */
+const Snd=(()=>{
+  const N={C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196,A3:220,B3:246.94,C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,B4:493.88,
+    C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880,B5:987.77,C6:1046.5,D6:1174.66,E6:1318.51,F6:1396.91,G6:1567.98};
+  const SONGS=[
+    {bpm:62,bar:6,mel:"G5 1.5,A5 .5,G5 1,E5 3,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,B5 3,C6 2,C6 1,G5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,F6 1.5,D6 .5,B5 1,C6 3,E6 3,C6 1,G5 1,E5 1,G5 1.5,F5 .5,D5 1,C5 6",
+     bass:"C3 C3 G3 C3 F3 C3 F3 C3 G3 C3 G3 C3"},
+    {bpm:84,bar:4,mel:"C6 1,B5 .75,A5 .25,G5 1.5,F5 .5,E5 1,D5 1,C5 1.5,G5 .5,A5 1.5,A5 .5,B5 1.5,B5 .5,C6 3,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,F5 .25,G5 1.25,F5 .5,E5 .5,D5 .5,D5 .5,D5 .5,D5 .25,E5 .25,F5 1.5,E5 .5,D5 .5,C5 .5,C6 1,A5 .5,G5 .75,F5 .25,E5 .5,F5 .5,E5 1,D5 1,C5 3",
+     bass:""}
+  ];
+  let ctx=null, mus=null, sfx=null, musicOn=true, started=false, timer=null, si=0, ni=0, t0=0, notes=[], beat=0, unlocked=false;
+  function iosUnlock(){
+    try{ const sr=8000,len=sr/2,buf=new ArrayBuffer(44+len*2),v=new DataView(buf);
+      const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+      w(0,"RIFF");v.setUint32(4,36+len*2,true);w(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+      v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,len*2,true);
+      const a=new Audio(URL.createObjectURL(new Blob([buf],{type:"audio/wav"}))); a.loop=true; a.setAttribute("playsinline",""); a.volume=.01; a.play().catch(()=>{});
+    }catch(e){}
+  }
+  function ensure(){
+    if(!ctx){ ctx=new (window.AudioContext||window.webkitAudioContext)();
+      mus=ctx.createGain(); mus.gain.value=.22; mus.connect(ctx.destination);
+      sfx=ctx.createGain(); sfx.gain.value=.45; sfx.connect(ctx.destination); }
+    if(!unlocked){ unlocked=true; iosUnlock(); }
+    if(ctx.state!=="running") ctx.resume();
+  }
+  // 純淨的音樂盒音色：單一正弦波＋柔和泛音，快速起音、自然衰減，避免雜音
+  function box(out,f,t,vol,len){
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type="sine"; o.frequency.value=f;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.012); g.gain.exponentialRampToValueAtTime(.0005,t+len);
+    o.connect(g).connect(out); o.start(t); o.stop(t+len+.05);
+    const o2=ctx.createOscillator(), g2=ctx.createGain(); o2.type="sine"; o2.frequency.value=f*2;
+    g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(vol*.12,t+.01); g2.gain.exponentialRampToValueAtTime(.0005,t+len*.5);
+    o2.connect(g2).connect(out); o2.start(t); o2.stop(t+len*.5+.05);
+  }
+  function load(at){
+    const s=SONGS[si%SONGS.length]; notes=s.mel.split(",").map(x=>{const [n,d]=x.trim().split(" "); return [n,parseFloat(d)];});
+    ni=0; beat=60/s.bpm; t0=at;
+    if(s.bass) s.bass.split(" ").forEach((n,i)=>box(mus,N[n],at+i*s.bar*beat,.10,s.bar*beat*.9));
+  }
+  function tick(){
+    if(!ctx||!musicOn) return;
+    const ahead=ctx.currentTime+.7;
+    while(t0<ahead){
+      if(ni>=notes.length){ si++; load(t0+beat*4); continue; }
+      const [n,d]=notes[ni++]; box(mus,N[n],t0,.16,Math.max(.8,d*beat*1.5)); t0+=d*beat;
+    }
+  }
+  function tone(f1,f2,t,len,vol){
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type="sine";
+    o.frequency.setValueAtTime(f1,t); if(f2) o.frequency.exponentialRampToValueAtTime(f2,t+len*.8);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.01); g.gain.exponentialRampToValueAtTime(.0005,t+len);
+    o.connect(g).connect(sfx); o.start(t); o.stop(t+len+.05);
+  }
+  const PENTA=[1046.5,1174.66,1318.51,1567.98,1760,2093,2349.32,2637.02,3135.96,3520,4186.01,4698.63];
+  const FX={
+    tap(t){ tone(1320,0,t,.08,.22); },
+    sheep(t){ tone(420,520,t,.12,.25); tone(520,400,t+.1,.16,.2); },
+    spark(t,i){ const f=PENTA[(i||0)%PENTA.length]; tone(f,0,t,.6,.16); tone(f*1.5,0,t+.02,.3,.04); },
+    step(t){ tone(110,70,t,.14,.35); },
+    star(t){ [523.25,659.25,783.99,1046.5,1318.51].forEach((f,i)=>tone(f,0,t+i*.12,.8,.16)); },
+    send(t){ tone(520,1560,t,.3,.2); }
+  };
+  return {
+    start(){ try{ ensure(); if(!started){ started=true; load(ctx.currentTime+.4); } musicOn=true; clearInterval(timer); timer=setInterval(tick,150); tick(); }catch(e){} },
+    fx(name,arg){ try{ ensure(); FX[name](ctx.currentTime+.01,arg); }catch(e){} },
+    toggleMusic(){ if(!ctx){ this.start(); return true; } musicOn=!musicOn;
+      if(musicOn){ mus.gain.setTargetAtTime(.22,ctx.currentTime,.1); t0=Math.max(t0,ctx.currentTime+.1); } else mus.gain.setTargetAtTime(0,ctx.currentTime,.05);
+      return musicOn; },
+    pause(h){ if(!ctx) return; try{ h? ctx.suspend() : ctx.resume(); }catch(e){} }
+  };
+})();
+document.addEventListener("visibilitychange",()=>Snd.pause(document.hidden));
+
+
+/* ===== 分享工具：手機分享選單＋結果圖卡（圖卡在瀏覽器內用 canvas 產生，不上傳任何資料） ===== */
+const Share=(()=>{
+  const siteUrl=()=> /claude|anthropic|usercontent/.test(location.hostname)||location.protocol==="file:" ? "" : location.origin+location.pathname;
+  async function copy(s){ try{ await navigator.clipboard.writeText(s); return true; }catch(e){ return false; } }
+  // LINE 與部分 App 不接受「文字＋網址」同時分享，所以把網址併進文字裡，只送一種內容
+  async function text(msg, toastFn){
+    const url=siteUrl(), full=msg+(url?"\n"+url:"");
+    if(navigator.share && url){
+      try{ await navigator.share({text:full}); return; }
+      catch(e){ if(e && e.name==="AbortError") return; }
+    }
+    const ok=await copy(full);
+    toastFn(ok?"已複製！貼給朋友吧 🎄":"無法自動複製，截圖分享也可以 📸");
+  }
+  // LINE 官方分享網址：在手機上會直接打開 LINE 的分享畫面
+  function lineHref(msg){ const url=siteUrl(); return "https://line.me/R/share?text="+encodeURIComponent(msg+(url?"\n"+url:"")); }
+  function wrap(ctx, str, maxW){
+    const out=[]; let line="";
+    for(const ch of [...str]){
+      if(ch==="\n"){ out.push(line); line=""; continue; }
+      if(ctx.measureText(line+ch).width>maxW && line){ out.push(line); line=ch; } else line+=ch;
+    }
+    if(line) out.push(line); return out;
+  }
+  function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+  async function card(o){
+    try{ await document.fonts.ready; }catch(e){}
+    const W=1080,H=1350,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
+    const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,o.bg1); g.addColorStop(1,o.bg2); x.fillStyle=g; x.fillRect(0,0,W,H);
+    const sans='"Noto Sans TC",system-ui,sans-serif', serif='"Noto Serif TC","Noto Sans TC",serif';
+    x.textAlign="center"; x.fillStyle=o.accent; x.font=`700 34px ${sans}`; x.fillText(o.kicker, W/2, 120);
+    x.font=`140px ${sans}`; x.fillText(o.emoji||"🎄", W/2, 300);
+    x.fillStyle=o.text; x.font=`900 84px ${serif}`;
+    let y=430; for(const l of wrap(x,o.title,W-160)){ x.fillText(l,W/2,y); y+=100; }
+    if(o.sub){ x.fillStyle=o.accent2||o.accent; x.font=`700 40px ${sans}`; for(const l of wrap(x,o.sub,W-180)){ x.fillText(l,W/2,y); y+=56; } }
+    y+=20;
+    const rows=o.rows||[], bh=96, by=y;
+    if(rows.length){
+      x.fillStyle="rgba(255,255,255,.09)"; rr(x,90,by,W-180,rows.length*bh+30,32); x.fill();
+      rows.forEach((r,i)=>{ const ry=by+30+i*bh+52;
+        x.textAlign="left"; x.fillStyle=o.muted; x.font=`500 36px ${sans}`; x.fillText(r[0],140,ry);
+        x.textAlign="right"; x.fillStyle=o.text; x.font=`900 44px ${sans}`;
+        let v=r[1]; while(x.measureText(v).width>W-560 && v.length>2) v=v.slice(0,-2)+"…"; x.fillText(v,W-140,ry); });
+      y=by+rows.length*bh+30+60;
+    }
+    if(o.tags && o.tags.length){
+      x.textAlign="center"; x.font=`500 34px ${sans}`; x.fillStyle=o.muted;
+      for(const l of wrap(x,o.tags.join("  "),W-180)){ x.fillText(l,W/2,y); y+=50; }
+    }
+    x.textAlign="center"; x.fillStyle=o.text; x.font=`700 40px ${sans}`; x.fillText(o.cta||"你也來玩玩看 👉", W/2, H-170);
+    x.fillStyle=o.muted; x.font=`500 30px ${sans}`; x.fillText(siteUrl().replace(/^https?:\/\//,"")||"聖誕節線上小遊戲 2026", W/2, H-115);
+    x.font=`500 24px ${sans}`; x.fillText("© 2026 liva", W/2, H-70);
+    return c;
+  }
+  function modal(dataUrl, canShareFile, onShare){
+    const m=document.createElement("div");
+    m.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px;font-family:'Noto Sans TC',sans-serif";
+    m.innerHTML=`<img src="${dataUrl}" alt="結果圖卡" style="max-width:100%;max-height:68vh;border-radius:14px;box-shadow:0 10px 40px #000">
+      <div style="color:#ddd;font-size:13px;text-align:center;line-height:1.7">手機可<b style="color:#fff">長按圖片</b>儲存，再分享到限動<br>傳 LINE：先存圖片，再到 LINE 聊天室傳送最穩定</div>
+      <div style="display:flex;gap:8px;width:100%;max-width:420px">
+        ${canShareFile?'<button data-a="share" style="flex:1;font:inherit;font-weight:700;padding:13px;border:0;border-radius:12px;background:#e3263f;color:#fff">分享圖片</button>':''}
+        <a data-a="dl" download="xmas-result.png" href="${dataUrl}" style="flex:1;text-align:center;text-decoration:none;font-weight:700;padding:13px;border-radius:12px;background:#fff;color:#111">下載圖片</a>
+        <button data-a="close" style="flex:1;font:inherit;font-weight:700;padding:13px;border:1px solid #fff6;border-radius:12px;background:transparent;color:#fff">關閉</button>
+      </div>`;
+    m.addEventListener("click",e=>{ const a=e.target.closest("[data-a]"); if(!a){ if(e.target===m) m.remove(); return; }
+      if(a.dataset.a==="close") m.remove(); if(a.dataset.a==="share") onShare(); });
+    document.body.appendChild(m);
+  }
+  async function image(opts, msg, toastFn){
+    try{
+      const c=await card(opts), url=c.toDataURL("image/png");
+      let file=null; try{ const blob=await new Promise(r=>c.toBlob(r,"image/png")); file=new File([blob],"xmas-result.png",{type:"image/png"}); }catch(e){}
+      const canShareFile=!!(file && navigator.canShare && navigator.canShare({files:[file]}));
+      modal(url, canShareFile, async()=>{ try{ await navigator.share({files:[file]}); }catch(e){} });
+    }catch(e){ toastFn("圖卡產生失敗，截圖分享也可以 📸"); }
+  }
+  return {text, image, siteUrl, lineHref};
+})();
+
 /* ===== 資料：佳音鏈存在網址 #g= 裡，不經過任何伺服器 ===== */
 const MAX_KEEP = 24, NAME_MAX = 8, BLESS_MAX = 14;
 const ORIGIN = {n:1, c:[["天使","不要懼怕！大喜的信息"]]};
@@ -182,9 +342,9 @@ function arrive(){
     <div class="const">${constellation(list,false)}</div>
     ${S.first?"":`<div class="chainlist">${chainHTML(list.slice(-6), n-Math.min(6,list.length))}</div>`}
     <button class="btn" id="go">收下這個佳音（約 2 分鐘）</button>
-    <div class="foot">純屬原創互動故事・經文取自《和合本》・© 2026 liva</div>
+    <div class="foot">有聖誕詩歌背景音樂，可按右上角 🎵 關閉<br>純屬原創互動故事・經文取自《和合本》・© 2026 liva</div>
   </div>`;
-  document.getElementById("go").onclick=sheep;
+  document.getElementById("go").onclick=()=>{ Snd.start(); Snd.fx("tap"); document.getElementById("mb").style.display="block"; sheep(); };
 }
 
 /* ===== 1. 看守羊群 ===== */
@@ -201,7 +361,7 @@ function sheep(){
   const sh=[];
   for(let i=0;i<6;i++){ const d=document.createElement("div"); d.className="sheep"; d.textContent="🐑";
     const [x,y]=home(i); d.style.left=x+"px"; d.style.top=y+"px"; F.appendChild(d); sh.push(d);
-    d.addEventListener("pointerdown",e=>{ e.preventDefault(); if(!d.classList.contains("stray")) return; d.classList.remove("stray"); const [hx,hy]=home(i); d.style.left=hx+"px"; d.style.top=hy+"px"; saved++; }); }
+    d.addEventListener("pointerdown",e=>{ e.preventDefault(); if(!d.classList.contains("stray")) return; d.classList.remove("stray"); Snd.fx("sheep"); const [hx,hy]=home(i); d.style.left=hx+"px"; d.style.top=hy+"px"; saved++; }); }
   let saved=0, t=0; const DUR=16;
   const iv=setInterval(()=>{ t+=1; document.getElementById("bar").style.width=Math.min(100,t/DUR*100)+"%";
     const calm=sh.filter(s=>!s.classList.contains("stray"));
@@ -225,7 +385,7 @@ async function angels(){
   const vbox=document.getElementById("vbox"), act=document.getElementById("act"), tz=document.getElementById("tz"), sc=document.getElementById("as");
   const say=(html)=>{ vbox.innerHTML=`<p class="verse">${html}</p>`; };
   let lights=0;
-  const spawn=(x,y)=>{ const s=document.createElement("div"); s.className="spark"; s.style.left=x+"px"; s.style.top=y+"px"; s.style.animationDelay=(Math.random()*2)+"s"; sc.appendChild(s); lights++; };
+  const spawn=(x,y)=>{ if(lights<12||lights%5===0) Snd.fx("spark",lights); const s=document.createElement("div"); s.className="spark"; s.style.left=x+"px"; s.style.top=y+"px"; s.style.animationDelay=(Math.random()*2)+"s"; sc.appendChild(s); lights++; };
   say(`有主的使者站在他們旁邊，<br>主的榮光四面照著他們；<br>牧羊的人就甚懼怕。<small>路加福音 2:9</small>`);
   await sleep(2600);
   act.innerHTML=`<p class="hint">點夜空，讓天上的光一一亮起 ✨ <b id="lc" style="color:var(--gold)">0</b> / 12</p>`;
@@ -234,14 +394,14 @@ async function angels(){
   say(`那天使對他們說：<br>「不要懼怕！我報給你們大喜的信息，<br>是關乎萬民的；<br>因今天在大衛的城裡，<br>為你們生了救主，就是主基督。」<small>路加福音 2:10–11</small>`);
   await sleep(1200);
   act.innerHTML=`<button class="btn" id="n1">繼續</button>`;
-  await new Promise(r=>document.getElementById("n1").onclick=r);
+  await new Promise(r=>document.getElementById("n1").onclick=()=>{ Snd.fx("tap"); r(); });
   act.innerHTML="";
   const w=sc.clientWidth,h=sc.clientHeight;
   for(let i=0;i<40;i++){ setTimeout(()=>spawn(Math.random()*w, Math.random()*h*.55), i*60); }
   say(`忽然，有一大隊天兵同那天使讚美神說：<br><b style="font-size:23px;color:var(--gold2)">「在至高之處榮耀歸與神！<br>在地上平安歸與他所喜悅的人！」</b><small>路加福音 2:13–14</small>`);
   await sleep(2400);
   act.innerHTML=`<button class="btn" id="n2">「我們往伯利恆去！」</button>`;
-  document.getElementById("n2").onclick=walk;
+  document.getElementById("n2").onclick=()=>{ Snd.fx("tap"); walk(); };
 }
 
 /* ===== 3. 往伯利恆去 ===== */
@@ -257,7 +417,7 @@ function walk(){
   </div><div class="hills"></div>`;
   let k=0; const N=7;
   document.getElementById("step").onclick=async()=>{
-    k++; document.getElementById("steps").textContent="👣".repeat(k);
+    k++; Snd.fx("step"); document.getElementById("steps").textContent="👣".repeat(k);
     document.getElementById("town").style.transform=`translate(-50%,-50%) scale(${.35+k/N*.85})`;
     if(k>=N){
       document.getElementById("step").remove();
@@ -272,7 +432,7 @@ function walk(){
       v2.innerHTML=`既然看見，<br>就將天使論這孩子的話傳開了。<small>路加福音 2:17</small>`;
       sc.appendChild(v2);
       await sleep(1600);
-      const b=document.createElement("button"); b.className="btn"; b.style.marginTop="12px"; b.textContent="輪到我傳下去 ✨"; b.onclick=form; sc.appendChild(b);
+      const b=document.createElement("button"); b.className="btn"; b.style.marginTop="12px"; b.textContent="輪到我傳下去 ✨"; b.onclick=()=>{ Snd.fx("tap"); form(); }; sc.appendChild(b);
     }
   };
 }
@@ -294,8 +454,9 @@ function form(){
     <button class="btn" id="lit">點亮我的星星 ⭐</button>
     <p class="hint">名字和祝福只存在分享連結裡，本網站不會收集或儲存任何資料。</p>
   </div>`;
-  document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on")); c.classList.add("on"); pick=c.dataset.b; document.getElementById("own").value=""; });
+  document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ Snd.fx("tap"); document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on")); c.classList.add("on"); pick=c.dataset.b; document.getElementById("own").value=""; });
   document.getElementById("lit").onclick=()=>{
+    Snd.fx("star");
     const name=clip(document.getElementById("nm").value.trim(),NAME_MAX)||"一位朋友";
     const own=clip(document.getElementById("own").value.trim(),BLESS_MAX);
     S.me=[name, own||pick];
@@ -315,20 +476,38 @@ function done(){
     <div class="const">${constellation(nx.c,true)}</div>
     <div class="chainlist">${chainHTML(nx.c.slice(-4), nx.n-Math.min(4,nx.c.length))}</div>
     <button class="btn" id="share">把佳音傳給一位朋友 🌟</button>
-    <button class="btn ghost" id="copy">複製連結</button>
+    <div style="display:flex;gap:8px;margin-top:9px">
+      <a id="line" class="btn" target="_blank" rel="noopener" style="margin:0;flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;text-decoration:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
+      <button class="btn ghost" id="copy" style="margin:0">複製連結</button>
+      <button class="btn ghost" id="img" style="margin:0">📸 圖卡</button>
+    </div>
     <p class="hint" style="line-height:1.8">不轉傳也沒關係——<br>這個好消息，已經是你的了。</p>
     <div class="foot">傳給不同的人，就會長出不同的星路・© 2026 liva</div>
   </div>`;
-  const txt=`有一個從兩千年前傳來的好消息，已經經過 ${nx.n} 站，現在傳到你手上了 🌟\n${S.me[0]}：「${S.me[1]}」\n`;
+  const txt=`有一個從兩千年前傳來的好消息，已經經過 ${nx.n} 站，現在傳到你手上了 🌟\n${S.me[0]}：「${S.me[1]}」`;
+  const full=txt+"\n"+link;
+  // LINE 與部分 App 不接受「文字＋網址」分開送，所以把連結併在文字裡，只送一段文字
   document.getElementById("share").onclick=async()=>{
-    try{ if(navigator.share){ await navigator.share({title:"這個佳音，傳到你了",text:txt,url:link}); return; } }catch(e){ if(e && e.name==="AbortError") return; }
-    copy(txt+link);
+    Snd.fx("send");
+    if(navigator.share){ try{ await navigator.share({text:full}); return; }catch(e){ if(e && e.name==="AbortError") return; } }
+    copy(full);
   };
-  document.getElementById("copy").onclick=()=>copy(txt+link);
+  document.getElementById("line").href="https://line.me/R/share?text="+encodeURIComponent(full);
+  document.getElementById("line").addEventListener("click",()=>Snd.fx("send"));
+  document.getElementById("copy").onclick=()=>{ Snd.fx("tap"); copy(full); };
+  document.getElementById("img").onclick=()=>{ Snd.fx("tap");
+    const prev = nx.c.length>1 ? nx.c[nx.c.length-2][0] : "天使";
+    Share.image({ bg1:"#0d1433", bg2:"#05071a", accent:"#f6d47a", accent2:"#ffe9a8", text:"#f4f1ea", muted:"#a8b3c9",
+      kicker:"聖誕佳音接力・這個佳音，傳到你了", emoji:"🌟", title:`我是第 ${nx.n} 站`, sub:`「${S.me[1]}」`,
+      rows:[["我的名字",S.me[0]],["從誰手上接到",prev],["起點","伯利恆的天使"]],
+      tags:["路加福音 2:17","既然看見，就將天使論這孩子的話傳開了"], cta:"這個佳音，也想傳給你 👉" }, txt, toast);
+    setTimeout(()=>toast("圖片不會附帶連結，記得也把連結傳給朋友喔"),2600);
+  };
 }
 async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給你想祝福的人 🌟"); }catch(e){ toast("請長按網址列複製連結"); } }
 function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
 
+document.getElementById("mb").onclick=()=>{ const on=Snd.toggleMusic(); document.getElementById("mb").textContent=on?"🎵":"🔇"; Snd.fx("tap"); };
 arrive();
 </script>
 </body>
