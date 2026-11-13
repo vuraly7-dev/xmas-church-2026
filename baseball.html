@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="description" content="大衛王的兒子多到可以組一支棒球隊！看球探報告猜隊員，答對就轟出全壘打，打完 6 局領取大衛給兒子的祝福。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="聖誕佳音小遊戲 2026">
+<meta property="og:title" content="大衛家棒球隊 ⚾｜聖經人物配對全壘打">
+<meta property="og:description" content="大衛王的兒子多到可以組一支棒球隊！看球探報告猜隊員，答對就轟出全壘打，打完 6 局領取大衛給兒子的祝福。">
+<meta property="og:url" content="https://vuraly7-dev.github.io/xmas-church-2026/baseball.html">
+<meta property="og:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og-baseball.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og-baseball.png">
+<meta name="theme-color" content="#0d1433">
+<title>大衛家棒球隊｜聖經人物配對全壘打</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#f6d47a;--gold2:#ffe9a8;--text:#f4f1ea;--muted:#a8b3c9;--grass:#2f8f4e;--red:#e3263f}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--text);background:#05071a}
+.app{max-width:520px;min-height:100vh;min-height:100dvh;margin:0 auto;position:relative;overflow-x:hidden;
+  background:radial-gradient(ellipse at 50% 0%,#1b2350 0%,#0d1433 45%,#05071a 100%);display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top) + 56px) 16px calc(env(safe-area-inset-bottom) + 18px)}
+.k{font-size:12px;letter-spacing:.3em;color:var(--gold);text-align:center}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:36px;line-height:1.3;text-align:center;margin:8px 0}
+h1 em{font-style:normal;color:var(--gold)}
+.lead{text-align:center;color:#cfd6e6;line-height:1.85;font-size:15px}
+.btn{display:block;width:100%;font:inherit;font-weight:700;font-size:16.5px;border:0;border-radius:14px;padding:15px;cursor:pointer;
+  background:linear-gradient(180deg,#f8dc8a,#e5b94e);color:#2a1d05;box-shadow:0 8px 26px #e5b94e44;text-align:center;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid #ffffff33;box-shadow:none}
+.foot{text-align:center;font-size:11px;color:#6d7894;margin-top:14px;line-height:1.7}
+/* scoreboard */
+.board{display:flex;justify-content:space-between;align-items:center;background:#0b1a12;border:2px solid #2c4a37;border-radius:12px;padding:8px 12px;font-size:13px;font-family:ui-monospace,monospace;color:#c9f5d6;margin-bottom:8px}
+.board b{color:#ffe36e;font-size:16px}
+.board .lights{display:flex;gap:4px;align-items:center}
+.board .lights i{width:10px;height:10px;border-radius:50%;background:#2c4a37}
+.board .lights i.on{background:#ffcf3a;box-shadow:0 0 6px #ffcf3a}
+/* field */
+.field{position:relative;width:100%;max-width:420px;margin:0 auto;flex:none}
+.field svg{width:100%;height:auto;display:block}
+#ball{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 0 1px #c33 inset,0 0 10px #fff;display:none;z-index:4}
+.call{position:absolute;left:0;right:0;top:34%;text-align:center;font-family:"Noto Serif TC",serif;font-weight:900;font-size:42px;pointer-events:none;z-index:5;opacity:0}
+.call.hr{color:#ffe36e;text-shadow:0 0 18px #ffb300,0 4px 0 #a33}
+.call.st{color:#fff;text-shadow:0 0 12px #e3263f}
+.call.show{animation:pop 1.4s ease forwards}
+@keyframes pop{0%{opacity:0;transform:scale(.4)}20%{opacity:1;transform:scale(1.15)}35%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+.conf{position:absolute;width:8px;height:12px;z-index:6;pointer-events:none;border-radius:2px}
+/* card */
+.qcard{background:#ffffff0d;border:1px solid #ffffff1f;border-radius:18px;padding:16px;animation:up .4s ease}
+@keyframes up{from{opacity:0;transform:translateY(10px)}}
+.pos{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#2a1d05;background:var(--gold);border-radius:99px;padding:4px 11px}
+.num{font-family:ui-monospace,monospace;font-weight:900;font-size:13px;color:var(--gold2);margin-left:8px}
+.scout{font-size:15.5px;line-height:1.9;margin:12px 0 8px}
+.scout li{margin-left:1.1em;margin-bottom:4px}
+.ask{font-weight:700;margin:6px 0 10px;color:var(--gold2)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{font:inherit;font-size:16px;font-weight:700;color:var(--text);background:#ffffff12;border:1.5px solid #ffffff2a;border-radius:12px;padding:12px 8px;cursor:pointer}
+.opt:active{transform:scale(.97)}
+.opt.no{opacity:.35;border-color:#e3263f88;animation:shake .35s}
+.opt.yes{background:#2fbf7133;border-color:#2fbf71}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.hint{font-size:13.5px;color:var(--gold2);margin-top:10px;line-height:1.7}
+.ref{font-size:12.5px;color:var(--muted);margin-top:6px}
+.verse{background:linear-gradient(160deg,#fff8ec,#ffeccf);color:#2b2420;border-radius:16px;padding:16px;margin-top:12px;animation:up .5s ease}
+.verse .to{font-size:12.5px;color:#a07a2a;letter-spacing:.12em}
+.verse .vt{font-family:"Noto Serif TC",serif;font-size:17.5px;line-height:1.9;margin:6px 0 4px;font-weight:700}
+.verse .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:14.5px;line-height:1.65;color:#4a3f36;margin-top:8px;padding-top:8px;border-top:1px dashed #d9c6a3}
+.verse .r{text-align:right;font-size:13px;color:#7a6650}
+.lineup{background:#0b1a12;border:2px solid #2c4a37;border-radius:14px;padding:12px 14px;margin:10px 0}
+.lineup div{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed #2c4a37;font-size:14.5px}
+.lineup div:last-child{border:0}
+.lineup b{color:#ffe36e;white-space:nowrap}
+.bench{font-size:13px;color:var(--muted);line-height:1.8;margin-top:6px}
+.row{display:flex;gap:8px;margin-top:9px}
+.row>*{flex:1;margin:0}
+.mbtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);right:max(10px,calc(50% - 250px));z-index:50;width:36px;height:36px;border-radius:50%;border:1px solid #ffffff33;background:#00000055;color:#fff;font-size:16px;cursor:pointer;display:none}
+.hbtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:max(10px,calc(50% - 250px));z-index:50;width:36px;height:36px;border-radius:50%;border:1px solid #ffffff33;background:#00000055;color:#fff;font-size:16px;text-decoration:none;display:none;align-items:center;justify-content:center}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;background:#fff;color:#111;padding:9px 16px;border-radius:99px;font-size:14px;transition:.3s;z-index:60;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<a class="hbtn" href="./" aria-label="回首頁">🏠</a>
+<button class="mbtn" id="mb" aria-label="音樂開關">🎵</button>
+<div class="toast" id="toast"></div>
+<script>
+
+/* ===== 聲音：全部由本頁程式即時合成，不使用任何錄音或音效檔 =====
+   背景音樂改編自公有領域的棒球歌曲旋律，以音樂盒音色重新演奏：
+   〈Take Me Out to the Ball Game〉Albert Von Tilzer 作曲，1908（取前半段旋律並加上結尾，循環播放）
+   音效（球棒、歡呼、好球）同樣由程式合成 */
+const Snd=(()=>{
+  const N={C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196,A3:220,B3:246.94,C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,B4:493.88,
+    C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880,B5:987.77,Gs5:830.61,C6:1046.5,D6:1174.66,E6:1318.51,F6:1396.91,G6:1567.98};
+  const SONGS=[
+    {bpm:138,bar:3,mel:"C5 2,C6 1,A5 1,G5 1,E5 1,G5 3,D5 3,C5 2,C6 1,A5 1,G5 1,E5 1,G5 3,G5 3,A5 1,Gs5 1,A5 1,E5 1,F5 1,G5 1,A5 2,F5 1,D5 3,A5 1,B5 1,C6 1,D6 2,B5 1,G5 3,C6 3",
+     bass:"C3 G3 C3 G3 C3 G3 C3 G3 A3 A3 D3 D3 D3 G3 G3 C3"}
+  ];
+  let ctx=null, mus=null, sfx=null, musicOn=true, started=false, timer=null, si=0, ni=0, t0=0, notes=[], beat=0, unlocked=false;
+  function iosUnlock(){
+    try{ const sr=8000,len=sr/2,buf=new ArrayBuffer(44+len*2),v=new DataView(buf);
+      const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+      w(0,"RIFF");v.setUint32(4,36+len*2,true);w(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+      v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,len*2,true);
+      const a=new Audio(URL.createObjectURL(new Blob([buf],{type:"audio/wav"}))); a.loop=true; a.setAttribute("playsinline",""); a.volume=.01; a.play().catch(()=>{});
+    }catch(e){}
+  }
+  function ensure(){
+    if(!ctx){ ctx=new (window.AudioContext||window.webkitAudioContext)();
+      mus=ctx.createGain(); mus.gain.value=.22; mus.connect(ctx.destination);
+      sfx=ctx.createGain(); sfx.gain.value=.45; sfx.connect(ctx.destination); }
+    if(!unlocked){ unlocked=true; iosUnlock(); }
+    if(ctx.state!=="running") ctx.resume();
+  }
+  // 純淨的音樂盒音色：單一正弦波＋柔和泛音，快速起音、自然衰減，避免雜音
+  function box(out,f,t,vol,len){
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type="sine"; o.frequency.value=f;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.012); g.gain.exponentialRampToValueAtTime(.0005,t+len);
+    o.connect(g).connect(out); o.start(t); o.stop(t+len+.05);
+    const o2=ctx.createOscillator(), g2=ctx.createGain(); o2.type="sine"; o2.frequency.value=f*2;
+    g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(vol*.12,t+.01); g2.gain.exponentialRampToValueAtTime(.0005,t+len*.5);
+    o2.connect(g2).connect(out); o2.start(t); o2.stop(t+len*.5+.05);
+  }
+  function load(at){
+    const s=SONGS[si%SONGS.length]; notes=s.mel.split(",").map(x=>{const [n,d]=x.trim().split(" "); return [n,parseFloat(d)];});
+    ni=0; beat=60/s.bpm; t0=at;
+    if(s.bass) s.bass.split(" ").forEach((n,i)=>box(mus,N[n],at+i*s.bar*beat,.10,s.bar*beat*.9));
+  }
+  function tick(){
+    if(!ctx||!musicOn) return;
+    const ahead=ctx.currentTime+.7;
+    while(t0<ahead){
+      if(ni>=notes.length){ si++; load(t0+beat*4); continue; }
+      const [n,d]=notes[ni++]; box(mus,N[n],t0,.16,Math.max(.8,d*beat*1.5)); t0+=d*beat;
+    }
+  }
+  function tone(f1,f2,t,len,vol){
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type="sine";
+    o.frequency.setValueAtTime(f1,t); if(f2) o.frequency.exponentialRampToValueAtTime(f2,t+len*.8);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.01); g.gain.exponentialRampToValueAtTime(.0005,t+len);
+    o.connect(g).connect(sfx); o.start(t); o.stop(t+len+.05);
+  }
+  const PENTA=[1046.5,1174.66,1318.51,1567.98,1760,2093,2349.32,2637.02,3135.96,3520,4186.01,4698.63];
+  const FX={
+    tap(t){ tone(1320,0,t,.08,.22); },
+    sheep(t){ tone(420,520,t,.12,.25); tone(520,400,t+.1,.16,.2); },
+    spark(t,i){ const f=PENTA[(i||0)%PENTA.length]; tone(f,0,t,.6,.16); tone(f*1.5,0,t+.02,.3,.04); },
+    step(t){ tone(110,70,t,.14,.35); },
+    star(t){ [523.25,659.25,783.99,1046.5,1318.51].forEach((f,i)=>tone(f,0,t+i*.12,.8,.16)); },
+    send(t){ tone(520,1560,t,.3,.2); },
+    crack(t){ const len=ctx.sampleRate*.08, b=ctx.createBuffer(1,len,ctx.sampleRate), d=b.getChannelData(0);
+      for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,4);
+      const s=ctx.createBufferSource(); s.buffer=b; const hp=ctx.createBiquadFilter(); hp.type="highpass"; hp.frequency.value=900;
+      const g=ctx.createGain(); g.gain.value=.9; s.connect(hp).connect(g).connect(sfx); s.start(t);
+      tone(180,90,t,.12,.35); },
+    homer(t){ [523.25,659.25,783.99,1046.5,1318.51,1567.98].forEach((f,i)=>tone(f,0,t+.25+i*.09,.6,.15)); tone(1046.5,2093,t,.9,.05); },
+    cheer(t){ const len=ctx.sampleRate*1.6, b=ctx.createBuffer(1,len,ctx.sampleRate), d=b.getChannelData(0);
+      for(let i=0;i<len;i++){ const e=Math.min(1,i/(len*.15))*Math.pow(1-i/len,1.5); d[i]=(Math.random()*2-1)*e; }
+      const s=ctx.createBufferSource(); s.buffer=b; const bp=ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=1400; bp.Q.value=.6;
+      const g=ctx.createGain(); g.gain.value=.22; s.connect(bp).connect(g).connect(sfx); s.start(t); },
+    strike(t){ tone(140,90,t,.18,.4); tone(300,200,t+.05,.2,.08); },
+    right(t){ [783.99,1046.5,1318.51].forEach((f,i)=>tone(f,0,t+i*.08,.45,.18)); }
+  };
+  return {
+    start(){ try{ ensure(); if(!started){ started=true; load(ctx.currentTime+.4); } musicOn=true; clearInterval(timer); timer=setInterval(tick,150); tick(); }catch(e){} },
+    fx(name,arg){ try{ ensure(); FX[name](ctx.currentTime+.01,arg); }catch(e){} },
+    toggleMusic(){ if(!ctx){ this.start(); return true; } musicOn=!musicOn;
+      if(musicOn){ mus.gain.setTargetAtTime(.22,ctx.currentTime,.1); t0=Math.max(t0,ctx.currentTime+.1); } else mus.gain.setTargetAtTime(0,ctx.currentTime,.05);
+      return musicOn; },
+    pause(h){ if(!ctx) return; try{ h? ctx.suspend() : ctx.resume(); }catch(e){} }
+  };
+})();
+document.addEventListener("visibilitychange",()=>Snd.pause(document.hidden));
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const siteUrl=()=> /claude|anthropic|usercontent/.test(location.hostname)||location.protocol==="file:" ? "" : location.origin+location.pathname;
+
+/* ===== 隊員資料：幽默介紹皆有經文根據（經文引自《和合本》） ===== */
+const TEAM=[
+ {pos:"總教練", no:"🧢", name:"大衛", bat:0,
+  scout:["少年時是牧羊人，練就一身好臂力","用機弦甩出一顆石頭，正中巨人歌利亞的額頭——史上最準的「投球」紀錄保持人","兒子多到可以組一整支棒球隊"],
+  opts:["大衛","掃羅","約拿單","約押"], hint:"他寫了很多篇詩篇，也是以色列最有名的君王。",
+  ref:"撒母耳記上 17:49；撒母耳記下 3:2–5、5:14–16"},
+ {pos:"王牌投手", no:"#1", name:"所羅門", bat:1,
+  scout:["向神只求了一樣東西：智慧","捕手還沒比暗號，他就已經看穿打者心裡在想什麼","在投手丘上的碎碎念都是金句——一生作了箴言三千句"],
+  hint:"他後來接續大衛作王，還建造了聖殿。",
+  ref:"列王紀上 3:9–12、4:32"},
+ {pos:"中外野手", no:"#8", name:"押沙龍", bat:8,
+  scout:["全隊顏值擔當：全以色列沒有人比他更俊美","髮量驚人，一年只剪一次頭髮，剪下來秤一秤有二百舍客勒（2 公斤多）","球帽需要特別訂做超大號"],
+  hint:"聖經特別記載了他的頭髮有多重。",
+  ref:"撒母耳記下 14:25–26"},
+ {pos:"一壘手", no:"#3", name:"亞多尼雅", bat:3,
+  scout:["教練還沒公布先發，他就自己宣布：「我要當先發！」","上場前自備車馬，還安排五十個人在前面跑步開路，排場滿分","教練爸爸從來沒唸過他一句"],
+  hint:"他曾經說「我必作王」，但王位最後給了所羅門。",
+  ref:"列王紀上 1:5–6"},
+ {pos:"二壘手", no:"#4", name:"基利押", bat:4,
+  scout:["大衛的次子，神秘新秀","聖經幾乎只記了他的名字——球探報告：資料不足","但血統優良：媽媽是聰明又有智慧的亞比該"],
+  hint:"他的媽媽亞比該，曾經用智慧勸阻大衛衝動行事。",
+  ref:"撒母耳記下 3:3、撒母耳記上 25:3；歷代志上 3:1 稱他為「但以利」"},
+ {pos:"捕手", no:"#2", name:"拿單", bat:2,
+  scout:["全隊最低調的守護者，鏡頭很少","和王牌投手所羅門是同一個媽媽生的兄弟，投捕默契一百分","隱藏版實力：名字被寫進路加福音裡耶穌的家譜","⚠️ 不是那位當面責備大衛的先知拿單喔——只是剛好同名！"],
+  hint:"他和王牌投手所羅門是親兄弟。",
+  ref:"歷代志上 3:5；路加福音 3:31"}
+];
+const BENCH="示法提雅、以特念、沙母亞、朔罷、益轄、以利書亞、尼斐、雅非亞、以利沙瑪、以利雅大、以利法列";
+const LINEUP=()=>TEAM.slice().sort((a,b)=>a.bat-b.bat);
+const BENCH_LIST=BENCH.split("、");
+function optionsFor(p){
+  if(p.opts) return shuffle(p.opts);
+  const mains=shuffle(TEAM.filter(x=>x.bat>0 && x.name!==p.name).map(x=>x.name)).slice(0,2);
+  const bench=shuffle(BENCH_LIST).slice(0,1);
+  return shuffle([p.name,...mains,...bench]);
+}
+/* ===== 比賽結束的祝福（中文《和合本》／英文 KJV，公有領域） ===== */
+const FINAL=["你當剛強壯膽，去行吧！不要懼怕，也不要驚惶，因為耶和華─神，就是我的神，與你同在。他必不撇下你，也不丟棄你。","歷代志上 28:20（節錄）","Be strong and of good courage, and do it: fear not, nor be dismayed: for the LORD God, even my God, will be with thee; he will not fail thee, nor forsake thee.","1 Chronicles 28:20, excerpt"];
+
+let S;
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* ===== 球場 ===== */
+function fieldSVG(){
+  return `<svg viewBox="0 0 300 190">
+    <defs><radialGradient id="g" cx="50%" cy="100%" r="100%"><stop offset="0" stop-color="#3aa65c"/><stop offset="1" stop-color="#226e3c"/></radialGradient></defs>
+    <path d="M150 182 L12 44 A196 196 0 0 1 288 44 Z" fill="url(#g)"/>
+    <path d="M12 44 A196 196 0 0 1 288 44" fill="none" stroke="#f6d47a" stroke-width="3"/>
+    ${Array.from({length:9},(_,i)=>`<line x1="${12+i*34.5}" y1="${44-Math.sin(Math.PI*i/8)*30}" x2="${12+i*34.5}" y2="${44-Math.sin(Math.PI*i/8)*30-6}" stroke="#ffffff55"/>`).join("")}
+    <path d="M150 178 L112 140 L150 102 L188 140 Z" fill="#b9814a"/>
+    <path d="M150 166 L122 140 L150 114 L178 140 Z" fill="#2f8f4e"/>
+    <circle cx="150" cy="140" r="7" fill="#c8915a"/>
+    <rect x="186" y="137" width="6" height="6" fill="#fff" transform="rotate(45 189 140)"/>
+    <rect x="147" y="99" width="6" height="6" fill="#fff" transform="rotate(45 150 102)"/>
+    <rect x="108" y="137" width="6" height="6" fill="#fff" transform="rotate(45 111 140)"/>
+    <path d="M146 176 L154 176 L154 180 L150 183 L146 180 Z" fill="#fff"/>
+    <text x="150" y="30" text-anchor="middle" font-size="11" fill="#f6d47a" font-weight="700" font-family="Noto Sans TC">大衛家棒球隊</text>
+    <g id="batter" transform="translate(160 170)"><circle r="4.5" fill="#f4d3b0"/><path d="M-3 4 L-3 13 M3 4 L3 13" stroke="#e3263f" stroke-width="3"/><line id="bat" x1="2" y1="1" x2="14" y2="-10" stroke="#c98a4a" stroke-width="2.6" stroke-linecap="round"/></g>
+  </svg><div id="ball"></div><div class="call" id="call"></div>`;
+}
+function board(){
+  return `<div class="board"><span>局 <b id="inn">1</b>/6</span><span class="lights" id="hrs">HR ${"<i></i>".repeat(6)}</span><span>好球 <b id="stk">0</b></span></div>`;
+}
+function updBoard(){ $("inn").textContent=Math.min(S.i+1,6); [...$("hrs").querySelectorAll("i")].forEach((e,k)=>e.classList.toggle("on",k<S.hr)); $("stk").textContent=S.strikes; }
+function call(txt,cls){ const c=$("call"); c.className="call "+cls; c.textContent=txt; void c.offsetWidth; c.classList.add("show"); }
+async function homeRun(){
+  const f=$("fld"), b=$("ball"), W=f.clientWidth, H=f.clientHeight, sx=W*.53, sy=H*.9;
+  const ex=W*(0.2+Math.random()*0.6), ey=-H*.25, cx=(sx+ex)/2, cy=-H*.55;
+  $("bat").setAttribute("x2","-12"); $("bat").setAttribute("y2","-4");
+  Snd.fx("crack"); b.style.display="block";
+  const t0=performance.now(), D=1300;
+  await new Promise(res=>{ (function step(t){ const p=Math.min(1,(t-t0)/D), q=1-p;
+    const x=q*q*sx+2*q*p*cx+p*p*ex, y=q*q*sy+2*q*p*cy+p*p*ey;
+    b.style.left=x+"px"; b.style.top=y+"px"; b.style.transform=`scale(${1-p*.6})`;
+    if(p<1) requestAnimationFrame(step); else res(); })(t0); });
+  b.style.display="none"; Snd.fx("homer"); Snd.fx("cheer");
+  call("全壘打！","hr"); confetti(f);
+  setTimeout(()=>{ $("bat").setAttribute("x2","14"); $("bat").setAttribute("y2","-10"); },600);
+}
+function confetti(host){
+  const C=["#ffe36e","#e3263f","#4fb3ff","#2fbf71","#ff8ad1","#fff"];
+  for(let i=0;i<46;i++){ const d=document.createElement("div"); d.className="conf"; d.style.background=C[i%C.length];
+    d.style.left=(host.clientWidth/2)+"px"; d.style.top=(host.clientHeight*.35)+"px"; host.appendChild(d);
+    const a=Math.random()*Math.PI*2, v=60+Math.random()*120;
+    d.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v+120}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:1300+Math.random()*500,easing:"cubic-bezier(.2,.7,.4,1)"}).onfinish=()=>d.remove(); }
+}
+
+/* ===== 畫面 ===== */
+function cover(){
+  $("app").innerHTML=`
+    <div style="flex:1"></div>
+    <div class="k">聖經人物配對・全壘打大賽</div>
+    <h1>大衛家<br><em>棒球隊</em> ⚾</h1>
+    <p class="lead">大衛王的兒子多到可以組一支棒球隊！<br>看完球探報告，猜猜每位隊員是誰。<br>答對就轟出<b style="color:var(--gold2)">全壘打</b>！<br>打完 6 局，領取大衛給兒子的祝福經文。</p>
+    <div class="qcard" style="margin:18px 0;font-size:14px;line-height:1.8;color:#cfd6e6">
+      🧢 總教練：？？？<br>⚾ 王牌投手：所羅門<br>👀 其他先發：等你來揭曉……
+    </div>
+    <button class="btn" id="go">PLAY BALL！開始比賽 ⚾</button>
+    <div class="foot">隊員介紹皆根據聖經記載・經文引自《和合本》與 KJV<br>背景音樂改編自 1908 年〈Take Me Out to the Ball Game〉，右上角 🎵 可關閉・© 2026 liva</div>
+    <div style="flex:1"></div>`;
+  $("go").onclick=()=>{ S={i:0,hr:0,strikes:0,first:0,used:[],order:[TEAM[0],...shuffle(TEAM.slice(1))]}; Snd.start(); Snd.fx("tap"); $("mb").style.display="block"; showHome(); game(); };
+}
+function game(){
+  $("app").innerHTML=`${board()}<div class="field" id="fld">${fieldSVG()}</div><div id="qa" style="margin-top:10px"></div>`;
+  updBoard(); ask();
+}
+function ask(){
+  const p=S.order[S.i], opts=optionsFor(p); let wrong=0;
+  updBoard();
+  $("qa").innerHTML=`<div class="qcard"><span class="pos">${p.pos}</span><span class="num">${p.no}</span>
+    <ul class="scout">${p.scout.map(s=>`<li>${s}</li>`).join("")}</ul>
+    <div class="ask">📋 這位${p.pos==="總教練"?"總教練":"隊員"}是誰？</div>
+    <div class="opts">${opts.map(o=>`<button class="opt" data-o="${o}">${o}</button>`).join("")}</div>
+    <div class="hint" id="hint"></div><div id="res"></div></div>`;
+  $("qa").querySelectorAll(".opt").forEach(b=>b.onclick=async()=>{
+    if(b.disabled) return;
+    if(b.dataset.o!==p.name){
+      wrong++; S.strikes++; updBoard(); Snd.fx("strike"); call("好球！","st");
+      b.classList.add("no"); b.disabled=true;
+      $("hint").innerHTML= wrong===1 ? `⚾ 揮棒落空！提示：${p.hint}` : `沒關係，大衛也常常給人第二次機會，再試一次 🙂`;
+      return;
+    }
+    if(wrong===0) S.first++;
+    $("qa").querySelectorAll(".opt").forEach(x=>x.disabled=true); b.classList.add("yes"); $("hint").innerHTML="";
+    try{ $("fld").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
+    await homeRun(); S.hr++; updBoard();
+    $("res").innerHTML=`<div class="ref">✅ 答對了！就是<b style="color:var(--gold2)">${p.name}</b>（${p.ref}）</div>
+      <button class="btn" id="nx" style="margin-top:12px">${S.i===TEAM.length-1?"比賽結束，看先發名單 🏆":"下一位打者 ⚾"}</button>`;
+    setTimeout(()=>{ try{ $("res").scrollIntoView({behavior:"smooth",block:"nearest"}); }catch(e){} },300);
+    $("nx").onclick=()=>{ Snd.fx("tap"); S.i++; if(S.i<TEAM.length){ ask(); try{ $("fld").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} } else final(); };
+  });
+}
+function final(){
+  updBoard();
+  const [v,r,ve,er]=FINAL;
+  $("qa").innerHTML=`
+    <div class="k" style="margin-top:6px">🏆 比賽結束・${S.hr} 支全壘打</div>
+    <h1 style="font-size:26px">大衛家棒球隊<br>先發名單</h1>
+    <div class="lineup">${LINEUP().map(p=>`<div><span>${p.no} ${p.pos}</span><b>${p.name}</b></div>`).join("")}</div>
+    <div class="bench">🪑 板凳區（聖經只記了名字，但都是大衛的寶貝）：${BENCH}</div>
+    <p style="text-align:center;color:var(--muted);font-size:13px;margin:10px 0 2px">6 位中有 ${S.first} 位一次就猜中・揮棒落空 ${S.strikes} 次</p>
+    <div class="verse"><div class="to">👑 總教練大衛，給兒子所羅門的祝福</div><div class="vt">${v}</div><div class="r">── ${r}</div><div class="en">${ve}</div><div class="r">— ${er} (KJV)</div></div>
+    <button class="btn" id="dl" style="margin-top:14px">📥 下載先發名單＋祝福圖卡</button>
+    <div class="row">
+      <a id="line" class="btn" target="_blank" rel="noopener" style="flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
+      <button class="btn ghost" id="sh">分享</button>
+      <button class="btn ghost" id="again">再打一場</button>
+    </div>
+    <a class="homelink" href="./" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:14px;text-decoration:none">🏠 回首頁，玩其他遊戲 →</a>
+    <div class="foot">隊員介紹根據聖經記載，幽默改寫・中文經文《和合本》・英文經文 KJV（公有領域）<br>© 2026 liva</div>`;
+  showHome(); Snd.fx("homer"); Snd.fx("cheer");
+  try{ $("qa").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
+  const msg=`我在《大衛家棒球隊》轟出 ${S.hr} 支全壘打 ⚾\n認識了大衛的兒子們：所羅門是王牌投手、押沙龍髮量驚人、亞多尼雅自己宣布要當先發 😂\n大衛給兒子的祝福：「${v}」（${r}）\n你也來挑戰看看！`;
+  const url=siteUrl(), full=msg+(url?"\n"+url:"");
+  $("line").href="https://line.me/R/share?text="+encodeURIComponent(full); $("line").addEventListener("click",()=>Snd.fx("send"));
+  $("sh").onclick=async()=>{ Snd.fx("send"); if(navigator.share && url){ try{ await navigator.share({text:full}); return; }catch(e){ if(e&&e.name==="AbortError") return; } } copy(full); };
+  $("again").onclick=()=>{ Snd.fx("tap"); cover(); window.scrollTo(0,0); };
+  $("dl").onclick=()=>{ Snd.fx("tap"); lineupCard(); };
+}
+
+/* ===== 先發名單＋祝福圖卡（canvas，在瀏覽器內產生） ===== */
+const NOSTART="，。、；：！？」』）─";
+function wrapText(x,str,maxW){ const out=[]; let line=""; for(const ch of [...str]){ if(x.measureText(line+ch).width>maxW && line && !NOSTART.includes(ch)){ out.push(line); line=ch; } else line+=ch; } if(line) out.push(line); return out; }
+function wrapWords(x,str,maxW){ const out=[]; let line=""; for(const w of str.split(" ")){ const t=line?line+" "+w:w; if(x.measureText(t).width>maxW && line){ out.push(line); line=w; } else line=t; } if(line) out.push(line); return out; }
+async function lineupCard(){
+  try{ await document.fonts.ready; }catch(e){}
+  const W=1080,H=1580,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
+  const sans='"Noto Sans TC",sans-serif', serif='"Noto Serif TC","Noto Sans TC",serif';
+  const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b2350"); g.addColorStop(.5,"#0d1433"); g.addColorStop(1,"#05071a"); x.fillStyle=g; x.fillRect(0,0,W,H);
+  x.textAlign="center"; x.fillStyle="#f6d47a"; x.font=`700 32px ${sans}`; x.fillText(`⚾ 比賽結束・${S.hr} 支全壘打`, W/2, 100);
+  x.fillStyle="#f4f1ea"; x.font=`900 76px ${serif}`; x.fillText("大衛家棒球隊", W/2, 200);
+  x.font=`700 40px ${sans}`; x.fillStyle="#ffe9a8"; x.fillText("先發名單", W/2, 262);
+  // scoreboard style lineup
+  const bx=110,by=310,bw=W-220,rh=74;
+  x.fillStyle="#0b1a12"; x.strokeStyle="#2c4a37"; x.lineWidth=4; x.beginPath(); x.roundRect?x.roundRect(bx,by,bw,rh*TEAM.length+30,24):x.rect(bx,by,bw,rh*TEAM.length+30); x.fill(); x.stroke();
+  LINEUP().forEach((p,i)=>{ const y=by+15+rh*i+50;
+    x.textAlign="left"; x.fillStyle="#c9f5d6"; x.font=`500 36px ${sans}`; x.fillText(`${p.no}  ${p.pos}`, bx+40, y);
+    x.textAlign="right"; x.fillStyle="#ffe36e"; x.font=`900 42px ${sans}`; x.fillText(p.name, bx+bw-40, y); });
+  // verse card
+  const cy=by+rh*TEAM.length+80, ch=H-cy-150, pad=90;
+  x.fillStyle="#fff8ec"; x.beginPath(); x.roundRect?x.roundRect(pad,cy,W-pad*2,ch,32):x.rect(pad,cy,W-pad*2,ch); x.fill();
+  x.textAlign="center"; x.fillStyle="#a07a2a"; x.font=`700 30px ${sans}`; x.fillText("👑 總教練大衛，給兒子的祝福", W/2, cy+62);
+  const [v,r,ve,er]=FINAL, maxW=W-pad*2-100;
+  let fs=40, es=27, lines, el;
+  for(;;){ x.font=`700 ${fs}px ${serif}`; lines=wrapText(x,v,maxW); x.font=`italic ${es}px Georgia,serif`; el=wrapWords(x,ve,maxW);
+    const tot=lines.length*fs*1.6+90+el.length*es*1.45+70; if(tot<=ch-130||fs<=30) break; fs-=2; es=Math.max(21,es-1); }
+  let y=cy+110+fs; x.textAlign="left"; x.fillStyle="#2b2420"; x.font=`700 ${fs}px ${serif}`;
+  lines.forEach(l=>{ x.fillText(l,pad+50,y); y+=fs*1.6; });
+  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 26px ${sans}`; x.fillText(`── ${r}`, W-pad-50, y-fs*.4+6);
+  y+=36; x.strokeStyle="#d9c6a3"; x.setLineDash([8,8]); x.lineWidth=2; x.beginPath(); x.moveTo(pad+50,y); x.lineTo(W-pad-50,y); x.stroke(); x.setLineDash([]);
+  y+=es*1.45+6; x.textAlign="left"; x.fillStyle="#4a3f36"; x.font=`italic ${es}px Georgia,serif`;
+  el.forEach(l=>{ x.fillText(l,pad+50,y); y+=es*1.45; });
+  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 22px Georgia,serif`; x.fillText(`— ${er} (KJV)`, W-pad-50, y+4);
+  x.textAlign="center"; x.fillStyle="#f4f1ea"; x.font=`700 34px ${sans}`; x.fillText("⚾ 大衛家棒球隊・聖經人物配對", W/2, H-80);
+  x.fillStyle="#a8b3c9"; x.font=`500 24px ${sans}`; x.fillText((siteUrl().replace(/^https?:\/\//,"")||"經文引自《和合本》與 KJV")+"  ・  © 2026 liva", W/2, H-38);
+  const data=c.toDataURL("image/png");
+  let file=null; try{ const blob=await new Promise(r=>c.toBlob(r,"image/png")); file=new File([blob],"david-baseball.png",{type:"image/png"}); }catch(e){}
+  const canFile=!!(file && navigator.canShare && navigator.canShare({files:[file]}));
+  const m=document.createElement("div");
+  m.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px";
+  m.innerHTML=`<img src="${data}" alt="先發名單圖卡" style="max-width:100%;max-height:66vh;border-radius:14px;box-shadow:0 10px 40px #000">
+    <div style="color:#ddd;font-size:13px;text-align:center">手機可<b style="color:#fff">長按圖片</b>直接儲存到相簿</div>
+    <div style="display:flex;gap:8px;width:100%;max-width:420px">
+      <a data-a="dl" download="david-baseball.png" href="${data}" style="flex:1;text-align:center;text-decoration:none;font-weight:700;padding:13px;border-radius:12px;background:#f6d47a;color:#2a1d05">下載圖片</a>
+      ${canFile?'<button data-a="share" style="flex:1;font:inherit;font-weight:700;padding:13px;border:0;border-radius:12px;background:#06C755;color:#fff">分享圖片</button>':''}
+      <button data-a="close" style="flex:1;font:inherit;font-weight:700;padding:13px;border:1px solid #fff6;border-radius:12px;background:transparent;color:#fff">關閉</button>
+    </div>`;
+  m.addEventListener("click",async e=>{ const a=e.target.closest("[data-a]"); if(!a){ if(e.target===m) m.remove(); return; }
+    if(a.dataset.a==="close") m.remove(); if(a.dataset.a==="dl") toast("已下載！到相簿或下載資料夾找找看 📥");
+    if(a.dataset.a==="share"){ try{ await navigator.share({files:[file]}); }catch(err){} } });
+  document.body.appendChild(m);
+}
+async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給朋友吧 ⚾"); }catch(e){ toast("無法自動複製，可以截圖分享 📸"); } }
+function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
+function showHome(){ if(!siteUrl()) return; document.querySelectorAll(".homelink").forEach(a=>a.style.display="block"); document.querySelectorAll(".hbtn").forEach(a=>a.style.display="flex"); }
+$("mb").onclick=()=>{ const on=Snd.toggleMusic(); $("mb").textContent=on?"🎵":"🔇"; Snd.fx("tap"); };
+showHome(); cover();
+</script>
+</body>
+</html>
