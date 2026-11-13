@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="description" content="7 道聖誕節的聖經題目，答對一題往上爬一層，爬到樹頂點亮星星，領取專屬的祝福經文圖卡！">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="聖誕佳音接力">
+<meta property="og:title" content="爬上聖誕樹 🎄｜聖誕經文闖關">
+<meta property="og:description" content="7 道聖誕節的聖經題目，答對一題往上爬一層，爬到樹頂點亮星星，領取專屬的祝福經文圖卡！">
+<meta property="og:url" content="https://vuraly7-dev.github.io/xmas-church-2026/tree.html">
+<meta property="og:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og-tree.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og-tree.png">
+<meta name="theme-color" content="#0d1433">
+<title>爬上聖誕樹｜聖誕經文闖關</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#f6d47a;--gold2:#ffe9a8;--text:#f4f1ea;--muted:#a8b3c9;--green:#2fbf71;--red:#e3263f}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--text);background:#05071a}
+.app{max-width:520px;min-height:100vh;min-height:100dvh;margin:0 auto;position:relative;
+  background:radial-gradient(ellipse at 50% 0%,#1b2350 0%,#0d1433 45%,#05071a 100%);display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top) + 14px) 18px calc(env(safe-area-inset-bottom) + 18px)}
+.k{font-size:12px;letter-spacing:.3em;color:var(--gold);text-align:center}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:38px;line-height:1.3;text-align:center;margin:10px 0}
+h1 em{font-style:normal;color:var(--gold)}
+.lead{text-align:center;color:#cfd6e6;line-height:1.85;font-size:15px}
+.btn{display:block;width:100%;font:inherit;font-weight:700;font-size:16.5px;border:0;border-radius:14px;padding:15px;cursor:pointer;
+  background:linear-gradient(180deg,#f8dc8a,#e5b94e);color:#2a1d05;box-shadow:0 8px 26px #e5b94e44;text-align:center;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid #ffffff33;box-shadow:none}
+.foot{text-align:center;font-size:11px;color:#6d7894;margin-top:14px;line-height:1.7}
+input.name{width:100%;font:inherit;font-size:17px;color:var(--text);background:#ffffff10;border:1px solid #ffffff2a;border-radius:12px;padding:13px 14px;outline:none;margin:8px 0 16px;text-align:center}
+input.name:focus{border-color:var(--gold)}
+/* tree */
+.treebox{position:relative;width:100%;max-width:330px;margin:0 auto;flex:none}
+.treebox svg{width:100%;height:auto;display:block;overflow:visible}
+.orn{transition:fill .5s, r .4s}
+.orn.on{filter:drop-shadow(0 0 4px #fff8)}
+#marker{transition:transform .9s cubic-bezier(.3,1.3,.5,1)}
+#star{transition:fill .8s}
+#star.on{fill:#ffd95a;transform-box:view-box;transform-origin:100px 16px;animation:twinkle 1.3s ease-in-out infinite}
+@keyframes twinkle{0%,100%{transform:translate(0,-6px) scale(1);fill:#ffd95a}50%{transform:translate(0,-6px) scale(1.22);fill:#fff6c8}}
+#halo{opacity:0;transform-box:view-box;transform-origin:100px 16px}
+.lit #halo{animation:halo 1.3s ease-in-out infinite}
+@keyframes halo{0%,100%{opacity:.25;transform:scale(1)}50%{opacity:.7;transform:scale(1.6)}}
+.spk{opacity:0;transform-box:fill-box;transform-origin:center}
+.lit .spk{animation:spk 1.6s ease-in-out infinite}
+.lit .spk:nth-child(2){animation-delay:.3s}.lit .spk:nth-child(3){animation-delay:.6s}.lit .spk:nth-child(4){animation-delay:.9s}.lit .spk:nth-child(5){animation-delay:1.2s}.lit .spk:nth-child(6){animation-delay:.45s}
+@keyframes spk{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(45deg)}}
+.prog{display:flex;justify-content:center;gap:6px;margin:4px 0 10px}
+.prog i{width:22px;height:6px;border-radius:9px;background:#ffffff22;transition:background .4s}
+.prog i.on{background:var(--gold)}
+/* question */
+.qcard{background:#ffffff0d;border:1px solid #ffffff1f;border-radius:18px;padding:16px 16px 14px;animation:up .4s ease}
+@keyframes up{from{opacity:0;transform:translateY(10px)}}
+.badge{display:inline-block;font-size:12px;font-weight:700;color:#2a1d05;background:var(--gold);border-radius:99px;padding:3px 10px}
+.qtext{font-family:"Noto Serif TC",serif;font-size:18px;line-height:1.85;margin:10px 0 12px}
+.qtext u{text-decoration:none;border-bottom:2px solid var(--gold);padding:0 10px;color:var(--gold)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{font:inherit;font-size:16px;font-weight:700;color:var(--text);background:#ffffff12;border:1.5px solid #ffffff2a;border-radius:12px;padding:12px 8px;cursor:pointer;transition:.15s}
+.opt:active{transform:scale(.97)}
+.opt.no{opacity:.35;border-color:#e3263f88;animation:shake .35s}
+.opt.yes{background:#2fbf7133;border-color:var(--green)}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.hint{font-size:13.5px;color:var(--gold2);margin-top:10px;line-height:1.7;min-height:1px}
+.explain{margin-top:12px;background:#2fbf711a;border:1px solid #2fbf7155;border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.75}
+.explain b{color:#7ff0b0}
+.explain small{display:block;color:var(--muted);margin-top:2px}
+/* verse */
+.verse{background:linear-gradient(160deg,#fff8ec,#ffeccf);color:#2b2420;border-radius:20px;padding:22px 20px;margin:6px 0 12px;box-shadow:0 14px 40px #0008;animation:up .6s ease}
+.verse .to{font-size:13px;color:#a07a2a;letter-spacing:.15em;text-align:center}
+.verse .vt{font-family:"Noto Serif TC",serif;font-size:20px;line-height:2;margin:10px 0 8px;font-weight:700}
+.verse .ref{text-align:right;font-size:14px;color:#7a6650}
+.verse .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:16px;line-height:1.7;color:#4a3f36;margin:14px 0 6px;padding-top:12px;border-top:1px dashed #d9c6a3}
+.row{display:flex;gap:8px;margin-top:9px}
+.row>*{flex:1;margin:0}
+.mbtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);right:max(10px,calc(50% - 250px));z-index:50;width:36px;height:36px;border-radius:50%;border:1px solid #ffffff33;background:#00000055;color:#fff;font-size:16px;cursor:pointer;display:none}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;background:#fff;color:#111;padding:9px 16px;border-radius:99px;font-size:14px;transition:.3s;z-index:60;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%)}
+canvas#sky{position:fixed;inset:0;z-index:0;pointer-events:none}
+.app>*{position:relative;z-index:1}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="app" id="app"></div>
+<button class="mbtn" id="mb" aria-label="音樂開關">🎵</button>
+<div class="toast" id="toast"></div>
+<script>
+
+/* ===== 聲音：全部由本頁程式即時合成，不使用任何錄音或音效檔 =====
+   背景音樂為公有領域的傳統聖誕詩歌旋律，以音樂盒音色重新演奏：
+   〈Silent Night 平安夜〉Franz Xaver Gruber，1818
+   〈Joy to the World 普世歡騰〉Lowell Mason 編曲，1839 */
+const Snd=(()=>{
+  const N={C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196,A3:220,B3:246.94,C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,B4:493.88,
+    C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880,B5:987.77,C6:1046.5,D6:1174.66,E6:1318.51,F6:1396.91,G6:1567.98};
+  const SONGS=[
+    {bpm:62,bar:6,mel:"G5 1.5,A5 .5,G5 1,E5 3,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,B5 3,C6 2,C6 1,G5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,F6 1.5,D6 .5,B5 1,C6 3,E6 3,C6 1,G5 1,E5 1,G5 1.5,F5 .5,D5 1,C5 6",
+     bass:"C3 C3 G3 C3 F3 C3 F3 C3 G3 C3 G3 C3"},
+    {bpm:84,bar:4,mel:"C6 1,B5 .75,A5 .25,G5 1.5,F5 .5,E5 1,D5 1,C5 1.5,G5 .5,A5 1.5,A5 .5,B5 1.5,B5 .5,C6 3,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,F5 .25,G5 1.25,F5 .5,E5 .5,D5 .5,D5 .5,D5 .5,D5 .25,E5 .25,F5 1.5,E5 .5,D5 .5,C5 .5,C6 1,A5 .5,G5 .75,F5 .25,E5 .5,F5 .5,E5 1,D5 1,C5 3",
+     bass:""}
+  ];
+  let ctx=null, mus=null, sfx=null, musicOn=true, started=false, timer=null, si=0, ni=0, t0=0, notes=[], beat=0, unlocked=false;
+  function iosUnlock(){
+    try{ const sr=8000,len=sr/2,buf=new ArrayBuffer(44+len*2),v=new DataView(buf);
+      const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+      w(0,"RIFF");v.setUint32(4,36+len*2,true);w(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+      v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,len*2,true);
+      const a=new Audio(URL.createObjectURL(new Blob([buf],{type:"audio/wav"}))); a.loop=true; a.setAttribute("playsinline",""); a.volume=.01; a.play().catch(()=>{});
+    }catch(e){}
+  }
+  function ensure(){
+    if(!ctx){ ctx=new (window.AudioContext||window.webkitAudioContext)();
+      mus=ctx.createGain(); mus.gain.value=.22; mus.connect(ctx.destination);
+      sfx=ctx.createGain(); sfx.gain.value=.45; sfx.connect(ctx.destination); }
+    if(!unlocked){ unlocked=true; iosUnlock(); }
+    if(ctx.state!=="running") ctx.resume();
+  }
+  // 純淨的音樂盒音色：單一正弦波＋柔和泛音，快速起音、自然衰減，避免雜音
+  function box(out,f,t,vol,len){
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type="sine"; o.frequency.value=f;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.012); g.gain.exponentialRampToValueAtTime(.0005,t+len);
+    o.connect(g).connect(out); o.start(t); o.stop(t+len+.05);
+    const o2=ctx.createOscillator(), g2=ctx.createGain(); o2.type="sine"; o2.frequency.value=f*2;
+    g2.gain.setValueAtTime(0,t); g2.gain.linearRampToValueAtTime(vol*.12,t+.01); g2.gain.exponentialRampToValueAtTime(.0005,t+len*.5);
+    o2.connect(g2).connect(out); o2.start(t); o2.stop(t+len*.5+.05);
+  }
+  function load(at){
+    const s=SONGS[si%SONGS.length]; notes=s.mel.split(",").map(x=>{const [n,d]=x.trim().split(" "); return [n,parseFloat(d)];});
+    ni=0; beat=60/s.bpm; t0=at;
+    if(s.bass) s.bass.split(" ").forEach((n,i)=>box(mus,N[n],at+i*s.bar*beat,.10,s.bar*beat*.9));
+  }
+  function tick(){
+    if(!ctx||!musicOn) return;
+    const ahead=ctx.currentTime+.7;
+    while(t0<ahead){
+      if(ni>=notes.length){ si++; load(t0+beat*4); continue; }
+      const [n,d]=notes[ni++]; box(mus,N[n],t0,.16,Math.max(.8,d*beat*1.5)); t0+=d*beat;
+    }
+  }
+  function tone(f1,f2,t,len,vol){
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type="sine";
+    o.frequency.setValueAtTime(f1,t); if(f2) o.frequency.exponentialRampToValueAtTime(f2,t+len*.8);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.01); g.gain.exponentialRampToValueAtTime(.0005,t+len);
+    o.connect(g).connect(sfx); o.start(t); o.stop(t+len+.05);
+  }
+  const PENTA=[1046.5,1174.66,1318.51,1567.98,1760,2093,2349.32,2637.02,3135.96,3520,4186.01,4698.63];
+  const FX={
+    tap(t){ tone(1320,0,t,.08,.22); },
+    sheep(t){ tone(420,520,t,.12,.25); tone(520,400,t+.1,.16,.2); },
+    spark(t,i){ const f=PENTA[(i||0)%PENTA.length]; tone(f,0,t,.6,.16); tone(f*1.5,0,t+.02,.3,.04); },
+    step(t){ tone(110,70,t,.14,.35); },
+    star(t){ [523.25,659.25,783.99,1046.5,1318.51].forEach((f,i)=>tone(f,0,t+i*.12,.8,.16)); },
+    send(t){ tone(520,1560,t,.3,.2); },
+    right(t){ [783.99,1046.5,1318.51].forEach((f,i)=>tone(f,0,t+i*.08,.45,.18)); },
+    wrong(t){ tone(330,260,t,.25,.16); tone(311,247,t+.12,.3,.12); },
+    climb(t){ [523.25,587.33,659.25,783.99].forEach((f,i)=>tone(f,0,t+i*.07,.3,.14)); }
+  };
+  return {
+    start(){ try{ ensure(); if(!started){ started=true; load(ctx.currentTime+.4); } musicOn=true; clearInterval(timer); timer=setInterval(tick,150); tick(); }catch(e){} },
+    fx(name,arg){ try{ ensure(); FX[name](ctx.currentTime+.01,arg); }catch(e){} },
+    toggleMusic(){ if(!ctx){ this.start(); return true; } musicOn=!musicOn;
+      if(musicOn){ mus.gain.setTargetAtTime(.22,ctx.currentTime,.1); t0=Math.max(t0,ctx.currentTime+.1); } else mus.gain.setTargetAtTime(0,ctx.currentTime,.05);
+      return musicOn; },
+    pause(h){ if(!ctx) return; try{ h? ctx.suspend() : ctx.resume(); }catch(e){} }
+  };
+})();
+document.addEventListener("visibilitychange",()=>Snd.pause(document.hidden));
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const siteUrl=()=> /claude|anthropic|usercontent/.test(location.hostname)||location.protocol==="file:" ? "" : location.origin+location.pathname;
+
+/* ===== 題目：經文皆引自《和合本》 ===== */
+const Q=[
+ {type:"猜人物", q:"天使進去，對她說：「蒙大恩的女子，我問你安，主和你同在了！」<br>這位女子是誰？",
+  opts:["馬利亞","伊利莎白","馬大","撒拉"], hint:"她後來在伯利恆生下了耶穌。",
+  ex:"天使加百列向<b>馬利亞</b>報喜，告訴她將要懷孕生子。", ref:"路加福音 1:28"},
+ {type:"猜人物", q:"主的使者在夢中向他顯現，說：「大衛的子孫，不要怕！只管娶過你的妻子馬利亞來。」<br>他是誰？",
+  opts:["約瑟","撒迦利亞","西面","彼得"], hint:"他是馬利亞已經聘定的丈夫。",
+  ex:"<b>約瑟</b>醒了，就遵著主使者的吩咐，把妻子娶過來。", ref:"馬太福音 1:20"},
+ {type:"經句填空", q:"「因此，主自己要給你們一個兆頭，必有童女懷孕生子，給他起名叫<u>？</u>。」",
+  opts:["以馬內利","以利亞","以撒","以法蓮"], hint:"這個名字的意思是「神與我們同在」。",
+  ex:"<b>以馬內利</b>，翻出來就是「神與我們同在」。", ref:"以賽亞書 7:14；馬太福音 1:23"},
+ {type:"猜先知", q:"「伯利恆以法他啊，你在猶大諸城中為小，將來必有一位從你那裡出來，在以色列中為我作掌權的。」<br>這是哪一位先知的預言？",
+  opts:["彌迦","以賽亞","耶利米","但以理"], hint:"這卷書在舊約小先知書裡，只有七章。",
+  ex:"先知<b>彌迦</b>預言彌賽亞要生在伯利恆。", ref:"彌迦書 5:2"},
+ {type:"經句填空", q:"「因今天在大衛的城裡，為你們生了<u>？</u>，就是主基督。」",
+  opts:["救主","君王","先知","祭司"], hint:"這是天使在野地向牧羊人報的大喜信息。",
+  ex:"天使對牧羊人說：「為你們生了<b>救主</b>，就是主基督。」", ref:"路加福音 2:11"},
+ {type:"猜人物", q:"他們從東方來，看見那顆星，就進了房子，揭開寶盒，拿黃金、乳香、沒藥為禮物獻給他。<br>他們是誰？",
+  opts:["博士","牧羊人","祭司長","文士"], hint:"他們一路跟著星星，從很遠的地方來朝拜。",
+  ex:"<b>博士</b>們見了那星，就大大地歡喜，進了房子俯伏拜那小孩子。", ref:"馬太福音 2:1–11"},
+ {type:"經句填空", q:"「神愛世人，甚至將他的獨生子賜給他們，叫一切信他的，不至滅亡，反得<u>？</u>。」",
+  opts:["永生","平安","喜樂","智慧"], hint:"這是聖經裡最常被背誦的一節經文。",
+  ex:"這就是聖誕節的意義：神將獨生子賜給世人，叫信他的人得著<b>永生</b>。", ref:"約翰福音 3:16"}
+];
+/* ===== 祝福經文：中文《和合本》、英文 King James Version（KJV，公有領域） ===== */
+const BLESS=[
+ ["耶和華說：我知道我向你們所懷的意念是賜平安的意念，不是降災禍的意念，要叫你們末後有指望。","耶利米書 29:11","For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.","Jeremiah 29:11"],
+ ["你不要害怕，因為我與你同在；不要驚惶，因為我是你的神。我必堅固你，我必幫助你；我必用我公義的右手扶持你。","以賽亞書 41:10","Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.","Isaiah 41:10"],
+ ["願耶和華賜福給你，保護你。願耶和華使他的臉光照你，賜恩給你。願耶和華向你仰臉，賜你平安。","民數記 6:24–26","The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee: The LORD lift up his countenance upon thee, and give thee peace.","Numbers 6:24–26"],
+ ["我靠著那加給我力量的，凡事都能做。","腓立比書 4:13","I can do all things through Christ which strengtheneth me.","Philippians 4:13"],
+ ["我留下平安給你們；我將我的平安賜給你們。我所賜的，不像世人所賜的。你們心裡不要憂愁，也不要膽怯。","約翰福音 14:27","Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.","John 14:27"],
+ ["耶和華是我的牧者，我必不致缺乏。","詩篇 23:1","The LORD is my shepherd; I shall not want.","Psalm 23:1"],
+ ["因有一嬰孩為我們而生；有一子賜給我們。政權必擔在他的肩頭上；他名稱為奇妙策士、全能的神、永在的父、和平的君。","以賽亞書 9:6","For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.","Isaiah 9:6"],
+ ["但願使人有盼望的神，因信將諸般的喜樂、平安充滿你們的心，使你們藉著聖靈的能力大有盼望。","羅馬書 15:13","Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.","Romans 15:13"],
+ ["耶和華─你的神是施行拯救、大有能力的主。他在你中間必因你歡欣喜樂，默然愛你，且因你喜樂而歡呼。","西番雅書 3:17","The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.","Zephaniah 3:17"],
+ ["凡勞苦擔重擔的人可以到我這裡來，我就使你們得安息。","馬太福音 11:28","Come unto me, all ye that labour and are heavy laden, and I will give you rest.","Matthew 11:28"]
+];
+
+let S={name:"",step:0,tries:0,first:0,verse:null};
+
+/* ===== 聖誕樹（SVG） ===== */
+const TOP=34, BASE=236, BANDS=7, BH=(BASE-TOP-14)/BANDS;
+const half=y=>(y-TOP)*0.44;
+function bandY(k){ const yb=BASE-k*BH, yt=yb-BH; return [yt,yb]; }
+function ornPos(k){ const [yt,yb]=bandY(k); const y=(yt+yb)/2+3; const w=half(y)*.55; return [100+(k%2?w:-w), y]; }
+const ORN=["#e3263f","#f6d47a","#4fb3ff","#ff8ad1","#9b7bff","#ff9f43","#2fbf71"];
+function treeSVG(){
+  let bands="";
+  for(let k=0;k<BANDS;k++){
+    const [yt,yb]=bandY(k), wt=half(yt), wb=half(yb)+7;
+    bands+=`<polygon points="${100-wt},${yt} ${100+wt},${yt} ${100+wb},${yb} ${100-wb},${yb}" fill="${k%2?"#1f7a4d":"#17643f"}"/>`;
+    bands+=`<path d="M${100-wb+4} ${yb-1} Q100 ${yb+5} ${100+wb-4} ${yb-1}" stroke="#ffffff22" stroke-width="1" fill="none"/>`;
+  }
+  let orns=""; for(let k=0;k<BANDS;k++){ const [x,y]=ornPos(k); orns+=`<circle class="orn" id="o${k}" cx="${x}" cy="${y}" r="5" fill="#ffffff26"/>`; }
+  return `<svg viewBox="0 0 200 262">
+    <rect x="91" y="${BASE-2}" width="18" height="20" rx="2" fill="#5a3a22"/>
+    <polygon points="100,${TOP-6} ${100+half(TOP+14)},${TOP+14} ${100-half(TOP+14)},${TOP+14}" fill="#17643f"/>
+    ${bands}${orns}
+    <circle id="halo" cx="100" cy="16" r="16" fill="#ffe9a8"/>
+    <path id="star" d="M100 2 L105.9 15.9 L120.9 17.2 L109.5 27 L113 41.7 L100 33.8 L87 41.7 L90.5 27 L79.1 17.2 L94.1 15.9 Z" transform="translate(0,-6) scale(1) " fill="#ffffff33" stroke="#ffe9a8" stroke-width=".8"/>
+    <g id="sparks"><path class="spk" d="M74 1 L75.4 4.6 L79 6 L75.4 7.4 L74 11 L72.6 7.4 L69 6 L72.6 4.6 Z" fill="#fff6d5"/><path class="spk" d="M128 -0.5 L129.26 2.7399999999999998 L132.5 4 L129.26 5.26 L128 8.5 L126.74 5.26 L123.5 4 L126.74 2.7399999999999998 Z" fill="#fff6d5"/><path class="spk" d="M70 26.5 L70.98 29.02 L73.5 30 L70.98 30.98 L70 33.5 L69.02 30.98 L66.5 30 L69.02 29.02 Z" fill="#fff6d5"/><path class="spk" d="M131 24 L132.12 26.88 L135 28 L132.12 29.12 L131 32 L129.88 29.12 L127 28 L129.88 26.88 Z" fill="#fff6d5"/><path class="spk" d="M100 -18 L101.12 -15.120000000000001 L104 -14 L101.12 -12.879999999999999 L100 -10 L98.88 -12.879999999999999 L96 -14 L98.88 -15.120000000000001 Z" fill="#fff6d5"/><path class="spk" d="M84 -11 L84.84 -8.84 L87 -8 L84.84 -7.16 L84 -5 L83.16 -7.16 L81 -8 L83.16 -8.84 Z" fill="#fff6d5"/></g>
+    <g id="marker" style="transform:translate(100px,${BASE+10}px)"><circle r="15" fill="#ffe9a8" opacity=".22"/><circle r="10.5" fill="#f6c95a" opacity=".55"/><text y="6.5" text-anchor="middle" font-size="18">🐑</text></g>
+  </svg>`;
+}
+function moveMarker(level){ // level: 0 = 地面, 1..7 = 各層, 8 = 星星
+  const m=$("marker"); if(!m) return;
+  let x=100,y=BASE+10;
+  if(level>=1 && level<=7){ [x,y]=ornPos(level-1); y-=15; }
+  if(level>=8){ x=100; y=50; }
+  m.style.transform=`translate(${x}px,${y}px)`;
+}
+function lightOrn(k){ const o=$("o"+k); if(o){ o.setAttribute("fill",ORN[k]); o.setAttribute("r","6.2"); o.classList.add("on"); } }
+
+/* ===== 畫面 ===== */
+function cover(){
+  $("app").innerHTML=`
+    <div style="flex:1"></div>
+    <div class="k">聖誕經文闖關</div>
+    <h1>爬上<br><em>聖誕樹</em></h1>
+    <div class="treebox" style="max-width:200px">${treeSVG()}</div>
+    <p class="lead" style="margin-top:8px">7 道聖誕節的聖經題目，<br>答對一題，小羊就往上爬一層。<br>爬到樹頂點亮星星，領取<b style="color:var(--gold2)">專屬祝福經文</b>！</p>
+    <input class="name" id="nm" maxlength="8" placeholder="你的名字或暱稱（可不填）" autocomplete="off">
+    <button class="btn" id="go">開始爬樹 🎄</button>
+    <a class="homelink" href="./" style="display:none;text-align:center;color:var(--muted);font-size:14px;margin-top:12px;text-decoration:none">🌟 另一個遊戲：這個佳音，傳到你了 →</a>
+    <div class="foot">經文引自《和合本》・有聖誕詩歌背景音樂，右上角 🎵 可關閉<br>© 2026 liva</div>
+    <div style="flex:1"></div>`;
+  showHome();
+  $("go").onclick=()=>{ S={name:$("nm").value.trim().slice(0,8),step:0,tries:0,first:0,verse:null};
+    Snd.start(); Snd.fx("tap"); $("mb").style.display="block"; game(); };
+}
+function game(){
+  $("app").innerHTML=`
+    <div class="k" id="lvl">第 1 / 7 題</div>
+    <div class="prog" id="prog">${"<i></i>".repeat(7)}</div>
+    <div class="treebox" id="tb">${treeSVG()}</div>
+    <div id="qa" style="margin-top:10px"></div>`;
+  for(let k=0;k<S.step;k++) lightOrn(k);
+  moveMarker(S.step);
+  ask();
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function ask(){
+  const q=Q[S.step], answer=q.opts[0], opts=shuffle(q.opts);
+  let wrongs=0;
+  $("lvl").textContent=`第 ${S.step+1} / 7 題`;
+  [...$("prog").children].forEach((e,i)=>e.classList.toggle("on",i<S.step));
+  $("qa").innerHTML=`<div class="qcard"><span class="badge">${q.type}</span>
+    <div class="qtext">${q.q}</div>
+    <div class="opts">${opts.map(o=>`<button class="opt" data-o="${o}">${o}</button>`).join("")}</div>
+    <div class="hint" id="hint"></div><div id="ex"></div></div>`;
+  $("qa").querySelectorAll(".opt").forEach(b=>b.onclick=async()=>{
+    if(b.disabled) return;
+    S.tries++;
+    if(b.dataset.o!==answer){
+      wrongs++; Snd.fx("wrong"); b.classList.add("no"); b.disabled=true;
+      $("hint").innerHTML = wrongs===1 ? `再想想看～ 💡 提示：${q.hint}` : `沒關係，再選一次就好 🙂`;
+      return;
+    }
+    if(wrongs===0) S.first++;
+    Snd.fx("right");
+    $("qa").querySelectorAll(".opt").forEach(x=>x.disabled=true); b.classList.add("yes"); $("hint").innerHTML="";
+    $("ex").innerHTML=`<div class="explain">✅ 答對了！${q.ex}<small>${q.ref}</small></div>
+      <button class="btn" id="up" style="margin-top:12px">${S.step===6?"爬上樹頂，點亮星星 ⭐":"往上爬一層 ⬆️"}</button>`;
+    try{ $("ex").scrollIntoView({behavior:"smooth",block:"nearest"}); }catch(e){}
+    $("up").onclick=async()=>{
+      $("up").disabled=true; Snd.fx("climb");
+      lightOrn(S.step); S.step++; moveMarker(S.step);
+      [...$("prog").children].forEach((e,i)=>e.classList.toggle("on",i<S.step));
+      try{ $("tb").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
+      await sleep(950);
+      if(S.step<7) ask(); else finish();
+    };
+  });
+}
+async function finish(){
+  $("qa").innerHTML="";
+  moveMarker(8); await sleep(900);
+  $("star").classList.add("on"); document.querySelector("#tb svg").classList.add("lit"); Snd.fx("star");
+  $("lvl").textContent="你爬到樹頂了！";
+  await sleep(1100);
+  S.verse=BLESS[Math.floor(Math.random()*BLESS.length)];
+  showVerse();
+}
+function showVerse(){
+  const [v,ref,ve,eref]=S.verse, who=S.name?`給 ${esc(S.name)} 的聖誕祝福`:"給你的聖誕祝福";
+  $("qa").innerHTML=`
+    <div class="verse"><div class="to">⭐ ${who} ⭐</div><div class="vt">${v}</div><div class="ref">── ${ref}</div><div class="en">${ve}</div><div class="ref">— ${eref} (KJV)</div></div>
+    <p style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:10px">7 題中有 ${S.first} 題一次就答對 🎉</p>
+    <button class="btn" id="dl">📥 下載祝福經文圖卡</button>
+    <div class="row">
+      <a id="line" class="btn" target="_blank" rel="noopener" style="flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
+      <button class="btn ghost" id="sh">分享</button>
+      <button class="btn ghost" id="again2">換一句經文</button>
+    </div>
+    <button class="btn ghost" id="replay" style="margin-top:9px">🎄 再爬一次</button>
+    <a class="homelink" href="./" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:14px;text-decoration:none">🌟 另一個遊戲：這個佳音，傳到你了 →</a>
+    <div class="foot">中文經文引自《和合本》・英文經文引自 King James Version（公有領域）<br>© 2026 liva</div>`;
+  showHome();
+  const msg=`我在《爬上聖誕樹》答對 7 題，點亮了樹頂的星星 ⭐\n抽到的祝福經文是：\n「${v}」（${ref}）\n"${ve}" (${eref}, KJV)\n也送給你，一起來爬聖誕樹吧 🎄`;
+  const url=siteUrl(), full=msg+(url?"\n"+url:"");
+  $("line").href="https://line.me/R/share?text="+encodeURIComponent(full);
+  $("line").addEventListener("click",()=>Snd.fx("send"));
+  $("sh").onclick=async()=>{ Snd.fx("send"); if(navigator.share && url){ try{ await navigator.share({text:full}); return; }catch(e){ if(e&&e.name==="AbortError") return; } } copy(full); };
+  $("again2").onclick=()=>{ Snd.fx("tap"); let n; do{ n=BLESS[Math.floor(Math.random()*BLESS.length)]; }while(n===S.verse && BLESS.length>1); S.verse=n; showVerse(); Snd.fx("star"); };
+  $("replay").onclick=()=>{ Snd.fx("tap"); cover(); window.scrollTo(0,0); };
+  $("dl").onclick=()=>{ Snd.fx("tap"); verseCard(); };
+  try{ $("qa").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
+}
+
+/* ===== 祝福經文圖卡（在瀏覽器內用 canvas 產生，不上傳任何資料） ===== */
+const NOSTART="，。、；：！？」』）─";
+function wrapText(ctx,str,maxW){ const out=[]; let line=""; for(const ch of [...str]){ if(ctx.measureText(line+ch).width>maxW && line && !NOSTART.includes(ch)){ out.push(line); line=ch; } else line+=ch; } if(line) out.push(line); return out; }
+async function verseCard(){
+  try{ await document.fonts.ready; }catch(e){}
+  const W=1080,H=1350,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
+  const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b2350"); g.addColorStop(.55,"#0d1433"); g.addColorStop(1,"#05071a"); x.fillStyle=g; x.fillRect(0,0,W,H);
+  // 星空
+  for(let i=0;i<160;i++){ x.globalAlpha=Math.random()*.7+.2; x.fillStyle="#fff"; x.beginPath(); x.arc(Math.random()*W,Math.random()*H*.6,Math.random()*2+.4,0,6.28); x.fill(); }
+  x.globalAlpha=1;
+  // 星星
+  const star=(cx,cy,R,r)=>{ x.beginPath(); for(let i=0;i<10;i++){ const a=-Math.PI/2+i*Math.PI/5, rr=i%2?r:R; x.lineTo(cx+Math.cos(a)*rr, cy+Math.sin(a)*rr); } x.closePath(); };
+  x.save(); x.shadowColor="#ffe9a8"; x.shadowBlur=60; x.fillStyle="#ffd95a"; star(W/2,150,70,30); x.fill(); x.restore();
+  // 卡片
+  const pad=90, cy=280, ch=820;
+  x.fillStyle="#fff8ec"; x.beginPath(); x.roundRect ? x.roundRect(pad,cy,W-pad*2,ch,40) : x.rect(pad,cy,W-pad*2,ch); x.fill();
+  const sans='"Noto Sans TC",sans-serif', serif='"Noto Serif TC","Noto Sans TC",serif';
+  x.textAlign="center"; x.fillStyle="#a07a2a"; x.font=`700 34px ${sans}`;
+  x.fillText(S.name?`給 ${S.name} 的聖誕祝福`:"給你的聖誕祝福", W/2, cy+90);
+  x.fillStyle="#e5b94e"; x.fillRect(W/2-40,cy+120,80,4);
+  const [v,ref,ve,eref]=S.verse;
+  const enFont=(s)=>`italic ${s}px Georgia,"Times New Roman",serif`;
+  const wrapWords=(str,maxW)=>{ const out=[]; let line=""; for(const w of str.split(" ")){ const tryL=line?line+" "+w:w; if(x.measureText(tryL).width>maxW && line){ out.push(line); line=w; } else line=tryL; } if(line) out.push(line); return out; };
+  const maxW=W-pad*2-120, avail=ch-300;
+  let fs=52, es=32, lines, elines, total;
+  for(;;){
+    x.font=`700 ${fs}px ${serif}`; lines=wrapText(x,v,maxW);
+    x.font=enFont(es); elines=wrapWords(ve,maxW);
+    total=lines.length*fs*1.7 + 90 + elines.length*es*1.5 + 50;
+    if(total<=avail || fs<=34) break;
+    fs-=2; es=Math.max(22,es-1);
+  }
+  let y=cy+150+Math.max(0,(avail-total)/2)+fs;
+  x.textAlign="left"; x.fillStyle="#2b2420"; x.font=`700 ${fs}px ${serif}`;
+  lines.forEach(l=>{ x.fillText(l,pad+60,y); y+=fs*1.7; });
+  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 30px ${sans}`; x.fillText(`── ${ref}`, W-pad-60, y-fs*0.5+14);
+  y+=40;
+  x.strokeStyle="#d9c6a3"; x.setLineDash([8,8]); x.beginPath(); x.moveTo(pad+60,y); x.lineTo(W-pad-60,y); x.stroke(); x.setLineDash([]);
+  y+=es*1.5+10;
+  x.textAlign="left"; x.fillStyle="#4a3f36"; x.font=enFont(es);
+  elines.forEach(l=>{ x.fillText(l,pad+60,y); y+=es*1.5; });
+  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 26px Georgia,serif`; x.fillText(`— ${eref} (KJV)`, W-pad-60, y+6);
+  // 底部
+  x.textAlign="center"; x.fillStyle="#f4f1ea"; x.font=`700 40px ${sans}`; x.fillText("🎄 爬上聖誕樹・聖誕經文闖關", W/2, H-130);
+  x.fillStyle="#a8b3c9"; x.font=`500 28px ${sans}`; x.fillText((siteUrl().replace(/^https?:\/\//,"")||"經文引自《和合本》")+"  ・  © 2026 liva", W/2, H-78);
+  const data=c.toDataURL("image/png");
+  let file=null; try{ const blob=await new Promise(r=>c.toBlob(r,"image/png")); file=new File([blob],"christmas-blessing.png",{type:"image/png"}); }catch(e){}
+  const canFile=!!(file && navigator.canShare && navigator.canShare({files:[file]}));
+  const m=document.createElement("div");
+  m.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px";
+  m.innerHTML=`<img src="${data}" alt="祝福經文圖卡" style="max-width:100%;max-height:66vh;border-radius:14px;box-shadow:0 10px 40px #000">
+    <div style="color:#ddd;font-size:13px;text-align:center;line-height:1.7">手機可<b style="color:#fff">長按圖片</b>直接儲存到相簿</div>
+    <div style="display:flex;gap:8px;width:100%;max-width:420px">
+      <a data-a="dl" download="christmas-blessing.png" href="${data}" style="flex:1;text-align:center;text-decoration:none;font-weight:700;padding:13px;border-radius:12px;background:#f6d47a;color:#2a1d05">下載圖片</a>
+      ${canFile?'<button data-a="share" style="flex:1;font:inherit;font-weight:700;padding:13px;border:0;border-radius:12px;background:#06C755;color:#fff">分享圖片</button>':''}
+      <button data-a="close" style="flex:1;font:inherit;font-weight:700;padding:13px;border:1px solid #fff6;border-radius:12px;background:transparent;color:#fff">關閉</button>
+    </div>`;
+  m.addEventListener("click",async e=>{ const a=e.target.closest("[data-a]"); if(!a){ if(e.target===m) m.remove(); return; }
+    if(a.dataset.a==="close") m.remove();
+    if(a.dataset.a==="dl") toast("已下載！到相簿或下載資料夾找找看 📥");
+    if(a.dataset.a==="share"){ try{ await navigator.share({files:[file]}); }catch(err){} } });
+  document.body.appendChild(m);
+}
+
+async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給朋友吧 🎄"); }catch(e){ toast("無法自動複製，可以截圖分享 📸"); } }
+function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
+function showHome(){ if(!siteUrl()) return; document.querySelectorAll(".homelink").forEach(a=>a.style.display="block"); }
+$("mb").onclick=()=>{ const on=Snd.toggleMusic(); $("mb").textContent=on?"🎵":"🔇"; Snd.fx("tap"); };
+
+/* 星空背景 */
+(function(){ const cv=$("sky"),cx=cv.getContext("2d"); let st=[];
+  function rs(){ const d=devicePixelRatio||1; cv.width=innerWidth*d; cv.height=innerHeight*d; cx.setTransform(d,0,0,d,0,0);
+    st=Array.from({length:110},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight*.9,r:Math.random()*1.3+.2,p:Math.random()*6.28})); }
+  function tw(t){ cx.clearRect(0,0,innerWidth,innerHeight); for(const s of st){ cx.globalAlpha=.3+.6*Math.abs(Math.sin(t/1500+s.p)); cx.fillStyle="#fff"; cx.beginPath(); cx.arc(s.x,s.y,s.r,0,6.28); cx.fill(); } cx.globalAlpha=1; requestAnimationFrame(tw); }
+  addEventListener("resize",rs); rs(); requestAnimationFrame(tw); })();
+cover();
+</script>
+</body>
+</html>

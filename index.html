@@ -342,8 +342,10 @@ function arrive(){
     <div class="const">${constellation(list,false)}</div>
     ${S.first?"":`<div class="chainlist">${chainHTML(list.slice(-6), n-Math.min(6,list.length))}</div>`}
     <button class="btn" id="go">收下這個佳音（約 2 分鐘）</button>
+    <a class="treelink" href="./tree.html" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:12px;text-decoration:none">🎄 另一個遊戲：爬上聖誕樹（經文闖關）→</a>
     <div class="foot">有聖誕詩歌背景音樂，可按右上角 🎵 關閉<br>純屬原創互動故事・經文取自《和合本》・© 2026 liva</div>
   </div>`;
+  showTree();
   document.getElementById("go").onclick=()=>{ Snd.start(); Snd.fx("tap"); document.getElementById("mb").style.display="block"; sheep(); };
 }
 
@@ -482,6 +484,7 @@ function done(){
       <button class="btn ghost" id="img" style="margin:0">📸 圖卡</button>
     </div>
     <p class="hint" style="line-height:1.8">不轉傳也沒關係——<br>這個好消息，已經是你的了。</p>
+    <a class="treelink" href="./tree.html" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:12px;text-decoration:none">🎄 另一個遊戲：爬上聖誕樹（經文闖關）→</a>
     <div class="foot">傳給不同的人，就會長出不同的星路・© 2026 liva</div>
   </div>`;
   const txt=`有一個從兩千年前傳來的好消息，已經經過 ${nx.n} 站，現在傳到你手上了 🌟\n${S.me[0]}：「${S.me[1]}」`;
@@ -492,6 +495,7 @@ function done(){
     if(navigator.share){ try{ await navigator.share({text:full}); return; }catch(e){ if(e && e.name==="AbortError") return; } }
     copy(full);
   };
+  showTree();
   document.getElementById("line").href="https://line.me/R/share?text="+encodeURIComponent(full);
   document.getElementById("line").addEventListener("click",()=>Snd.fx("send"));
   document.getElementById("copy").onclick=()=>{ Snd.fx("tap"); copy(full); };
@@ -504,6 +508,7 @@ function done(){
     setTimeout(()=>toast("圖片不會附帶連結，記得也把連結傳給朋友喔"),2600);
   };
 }
+function showTree(){ if(/claude|anthropic|usercontent/.test(location.hostname)||location.protocol==="file:") return; document.querySelectorAll(".treelink").forEach(a=>a.style.display="block"); }
 async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給你想祝福的人 🌟"); }catch(e){ toast("請長按網址列複製連結"); } }
 function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
 
