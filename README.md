@@ -1,6 +1,7 @@
-# 這個佳音，傳到你了｜聖誕佳音接力 2026
+# 聖誕佳音小遊戲 2026
 
-🌟 這個佳音，傳到你了：https://vuraly7-dev.github.io/xmas-church-2026/
+🏠 首頁：https://vuraly7-dev.github.io/xmas-church-2026/
+🌟 這個佳音，傳到你了：https://vuraly7-dev.github.io/xmas-church-2026/good-news.html
 🎄 爬上聖誕樹（經文闖關）：https://vuraly7-dev.github.io/xmas-church-2026/tree.html
 
 一個從兩千年前伯利恆傳來的好消息，一站一站傳到你手上。

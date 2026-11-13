@@ -91,6 +91,7 @@ canvas#sky{position:fixed;inset:0;z-index:0;pointer-events:none}
 <canvas id="sky"></canvas>
 <div class="app" id="app"></div>
 <button class="mbtn" id="mb" aria-label="音樂開關">🎵</button>
+<a class="hbtn" href="./" aria-label="回首頁" style="position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:max(10px,calc(50% - 250px));z-index:50;width:36px;height:36px;border-radius:50%;border:1px solid #ffffff33;background:#00000055;color:#fff;font-size:16px;text-decoration:none;display:none;align-items:center;justify-content:center">🏠</a>
 <div class="toast" id="toast"></div>
 <script>
 
@@ -262,7 +263,7 @@ function cover(){
     <p class="lead" style="margin-top:8px">7 道聖誕節的聖經題目，<br>答對一題，小羊就往上爬一層。<br>爬到樹頂點亮星星，領取<b style="color:var(--gold2)">專屬祝福經文</b>！</p>
     <input class="name" id="nm" maxlength="8" placeholder="你的名字或暱稱（可不填）" autocomplete="off">
     <button class="btn" id="go">開始爬樹 🎄</button>
-    <a class="homelink" href="./" style="display:none;text-align:center;color:var(--muted);font-size:14px;margin-top:12px;text-decoration:none">🌟 另一個遊戲：這個佳音，傳到你了 →</a>
+    <a class="homelink" href="./good-news.html" style="display:none;text-align:center;color:var(--muted);font-size:14px;margin-top:12px;text-decoration:none">🌟 另一個遊戲：這個佳音，傳到你了 →</a>
     <div class="foot">經文引自《和合本》・有聖誕詩歌背景音樂，右上角 🎵 可關閉<br>© 2026 liva</div>
     <div style="flex:1"></div>`;
   showHome();
@@ -334,7 +335,7 @@ function showVerse(){
       <button class="btn ghost" id="again2">換一句經文</button>
     </div>
     <button class="btn ghost" id="replay" style="margin-top:9px">🎄 再爬一次</button>
-    <a class="homelink" href="./" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:14px;text-decoration:none">🌟 另一個遊戲：這個佳音，傳到你了 →</a>
+    <a class="homelink" href="./good-news.html" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:14px;text-decoration:none">🌟 另一個遊戲：這個佳音，傳到你了 →</a>
     <div class="foot">中文經文引自《和合本》・英文經文引自 King James Version（公有領域）<br>© 2026 liva</div>`;
   showHome();
   const msg=`我在《爬上聖誕樹》答對 7 題，點亮了樹頂的星星 ⭐\n抽到的祝福經文是：\n「${v}」（${ref}）\n"${ve}" (${eref}, KJV)\n也送給你，一起來爬聖誕樹吧 🎄`;
@@ -414,7 +415,7 @@ async function verseCard(){
 
 async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給朋友吧 🎄"); }catch(e){ toast("無法自動複製，可以截圖分享 📸"); } }
 function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
-function showHome(){ if(!siteUrl()) return; document.querySelectorAll(".homelink").forEach(a=>a.style.display="block"); }
+function showHome(){ if(!siteUrl()) return; document.querySelectorAll(".homelink").forEach(a=>a.style.display="block"); document.querySelectorAll(".hbtn").forEach(a=>a.style.display="flex"); }
 $("mb").onclick=()=>{ const on=Snd.toggleMusic(); $("mb").textContent=on?"🎵":"🔇"; Snd.fx("tap"); };
 
 /* 星空背景 */
