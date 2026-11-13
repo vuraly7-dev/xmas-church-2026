@@ -326,8 +326,7 @@ function final(){
     <div class="bench">🪑 板凳區（聖經只記了名字，但都是大衛的寶貝）：${BENCH}</div>
     <p style="text-align:center;color:var(--muted);font-size:13px;margin:10px 0 2px">6 位中有 ${S.first} 位一次就猜中・揮棒落空 ${S.strikes} 次</p>
     <div class="verse"><div class="to">👑 總教練大衛，給兒子所羅門的祝福</div><div class="vt">${v}</div><div class="r">── ${r}</div><div class="en">${ve}</div><div class="r">— ${er} (KJV)</div></div>
-    <button class="btn" id="dl" style="margin-top:14px">📥 下載先發名單＋祝福圖卡</button>
-    <div class="row">
+    <div class="row" style="margin-top:14px">
       <a id="line" class="btn" target="_blank" rel="noopener" style="flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
       <button class="btn ghost" id="sh">分享</button>
       <button class="btn ghost" id="again">再打一場</button>
@@ -341,61 +340,8 @@ function final(){
   $("line").href="https://line.me/R/share?text="+encodeURIComponent(full); $("line").addEventListener("click",()=>Snd.fx("send"));
   $("sh").onclick=async()=>{ Snd.fx("send"); if(navigator.share && url){ try{ await navigator.share({text:full}); return; }catch(e){ if(e&&e.name==="AbortError") return; } } copy(full); };
   $("again").onclick=()=>{ Snd.fx("tap"); cover(); window.scrollTo(0,0); };
-  $("dl").onclick=()=>{ Snd.fx("tap"); lineupCard(); };
 }
 
-/* ===== 先發名單＋祝福圖卡（canvas，在瀏覽器內產生） ===== */
-const NOSTART="，。、；：！？」』）─";
-function wrapText(x,str,maxW){ const out=[]; let line=""; for(const ch of [...str]){ if(x.measureText(line+ch).width>maxW && line && !NOSTART.includes(ch)){ out.push(line); line=ch; } else line+=ch; } if(line) out.push(line); return out; }
-function wrapWords(x,str,maxW){ const out=[]; let line=""; for(const w of str.split(" ")){ const t=line?line+" "+w:w; if(x.measureText(t).width>maxW && line){ out.push(line); line=w; } else line=t; } if(line) out.push(line); return out; }
-async function lineupCard(){
-  try{ await document.fonts.ready; }catch(e){}
-  const W=1080,H=1580,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
-  const sans='"Noto Sans TC",sans-serif', serif='"Noto Serif TC","Noto Sans TC",serif';
-  const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b2350"); g.addColorStop(.5,"#0d1433"); g.addColorStop(1,"#05071a"); x.fillStyle=g; x.fillRect(0,0,W,H);
-  x.textAlign="center"; x.fillStyle="#f6d47a"; x.font=`700 32px ${sans}`; x.fillText(`⚾ 比賽結束・${S.hr} 支全壘打`, W/2, 100);
-  x.fillStyle="#f4f1ea"; x.font=`900 76px ${serif}`; x.fillText("大衛家棒球隊", W/2, 200);
-  x.font=`700 40px ${sans}`; x.fillStyle="#ffe9a8"; x.fillText("先發名單", W/2, 262);
-  // scoreboard style lineup
-  const bx=110,by=310,bw=W-220,rh=74;
-  x.fillStyle="#0b1a12"; x.strokeStyle="#2c4a37"; x.lineWidth=4; x.beginPath(); x.roundRect?x.roundRect(bx,by,bw,rh*TEAM.length+30,24):x.rect(bx,by,bw,rh*TEAM.length+30); x.fill(); x.stroke();
-  LINEUP().forEach((p,i)=>{ const y=by+15+rh*i+50;
-    x.textAlign="left"; x.fillStyle="#c9f5d6"; x.font=`500 36px ${sans}`; x.fillText(`${p.no}  ${p.pos}`, bx+40, y);
-    x.textAlign="right"; x.fillStyle="#ffe36e"; x.font=`900 42px ${sans}`; x.fillText(p.name, bx+bw-40, y); });
-  // verse card
-  const cy=by+rh*TEAM.length+80, ch=H-cy-150, pad=90;
-  x.fillStyle="#fff8ec"; x.beginPath(); x.roundRect?x.roundRect(pad,cy,W-pad*2,ch,32):x.rect(pad,cy,W-pad*2,ch); x.fill();
-  x.textAlign="center"; x.fillStyle="#a07a2a"; x.font=`700 30px ${sans}`; x.fillText("👑 總教練大衛，給兒子的祝福", W/2, cy+62);
-  const [v,r,ve,er]=FINAL, maxW=W-pad*2-100;
-  let fs=40, es=27, lines, el;
-  for(;;){ x.font=`700 ${fs}px ${serif}`; lines=wrapText(x,v,maxW); x.font=`italic ${es}px Georgia,serif`; el=wrapWords(x,ve,maxW);
-    const tot=lines.length*fs*1.6+90+el.length*es*1.45+70; if(tot<=ch-130||fs<=30) break; fs-=2; es=Math.max(21,es-1); }
-  let y=cy+110+fs; x.textAlign="left"; x.fillStyle="#2b2420"; x.font=`700 ${fs}px ${serif}`;
-  lines.forEach(l=>{ x.fillText(l,pad+50,y); y+=fs*1.6; });
-  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 26px ${sans}`; x.fillText(`── ${r}`, W-pad-50, y-fs*.4+6);
-  y+=36; x.strokeStyle="#d9c6a3"; x.setLineDash([8,8]); x.lineWidth=2; x.beginPath(); x.moveTo(pad+50,y); x.lineTo(W-pad-50,y); x.stroke(); x.setLineDash([]);
-  y+=es*1.45+6; x.textAlign="left"; x.fillStyle="#4a3f36"; x.font=`italic ${es}px Georgia,serif`;
-  el.forEach(l=>{ x.fillText(l,pad+50,y); y+=es*1.45; });
-  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 22px Georgia,serif`; x.fillText(`— ${er} (KJV)`, W-pad-50, y+4);
-  x.textAlign="center"; x.fillStyle="#f4f1ea"; x.font=`700 34px ${sans}`; x.fillText("⚾ 大衛家棒球隊・聖經人物配對", W/2, H-80);
-  x.fillStyle="#a8b3c9"; x.font=`500 24px ${sans}`; x.fillText((siteUrl().replace(/^https?:\/\//,"")||"經文引自《和合本》與 KJV")+"  ・  © 2026 liva", W/2, H-38);
-  const data=c.toDataURL("image/png");
-  let file=null; try{ const blob=await new Promise(r=>c.toBlob(r,"image/png")); file=new File([blob],"david-baseball.png",{type:"image/png"}); }catch(e){}
-  const canFile=!!(file && navigator.canShare && navigator.canShare({files:[file]}));
-  const m=document.createElement("div");
-  m.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px";
-  m.innerHTML=`<img src="${data}" alt="先發名單圖卡" style="max-width:100%;max-height:66vh;border-radius:14px;box-shadow:0 10px 40px #000">
-    <div style="color:#ddd;font-size:13px;text-align:center">手機可<b style="color:#fff">長按圖片</b>直接儲存到相簿</div>
-    <div style="display:flex;gap:8px;width:100%;max-width:420px">
-      <a data-a="dl" download="david-baseball.png" href="${data}" style="flex:1;text-align:center;text-decoration:none;font-weight:700;padding:13px;border-radius:12px;background:#f6d47a;color:#2a1d05">下載圖片</a>
-      ${canFile?'<button data-a="share" style="flex:1;font:inherit;font-weight:700;padding:13px;border:0;border-radius:12px;background:#06C755;color:#fff">分享圖片</button>':''}
-      <button data-a="close" style="flex:1;font:inherit;font-weight:700;padding:13px;border:1px solid #fff6;border-radius:12px;background:transparent;color:#fff">關閉</button>
-    </div>`;
-  m.addEventListener("click",async e=>{ const a=e.target.closest("[data-a]"); if(!a){ if(e.target===m) m.remove(); return; }
-    if(a.dataset.a==="close") m.remove(); if(a.dataset.a==="dl") toast("已下載！到相簿或下載資料夾找找看 📥");
-    if(a.dataset.a==="share"){ try{ await navigator.share({files:[file]}); }catch(err){} } });
-  document.body.appendChild(m);
-}
 async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給朋友吧 ⚾"); }catch(e){ toast("無法自動複製，可以截圖分享 📸"); } }
 function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
 function showHome(){ if(!siteUrl()) return; document.querySelectorAll(".homelink").forEach(a=>a.style.display="block"); document.querySelectorAll(".hbtn").forEach(a=>a.style.display="flex"); }

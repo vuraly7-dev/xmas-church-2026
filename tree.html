@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="description" content="7 道聖誕節的聖經題目，答對一題往上爬一層，爬到樹頂點亮星星，領取專屬的祝福經文圖卡！">
+<meta name="description" content="7 道聖誕節的聖經題目，答對一題往上爬一層，爬到樹頂點亮星星，領取專屬的祝福經文！">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="聖誕佳音接力">
 <meta property="og:title" content="爬上聖誕樹 🎄｜聖誕經文闖關">
-<meta property="og:description" content="7 道聖誕節的聖經題目，答對一題往上爬一層，爬到樹頂點亮星星，領取專屬的祝福經文圖卡！">
+<meta property="og:description" content="7 道聖誕節的聖經題目，答對一題往上爬一層，爬到樹頂點亮星星，領取專屬的祝福經文！">
 <meta property="og:url" content="https://vuraly7-dev.github.io/xmas-church-2026/tree.html">
 <meta property="og:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og-tree.png">
 <meta property="og:image:width" content="1200">
@@ -328,7 +328,6 @@ function showVerse(){
   $("qa").innerHTML=`
     <div class="verse"><div class="to">⭐ ${who} ⭐</div><div class="vt">${v}</div><div class="ref">── ${ref}</div><div class="en">${ve}</div><div class="ref">— ${eref} (KJV)</div></div>
     <p style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:10px">7 題中有 ${S.first} 題一次就答對 🎉</p>
-    <button class="btn" id="dl">📥 下載祝福經文圖卡</button>
     <div class="row">
       <a id="line" class="btn" target="_blank" rel="noopener" style="flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
       <button class="btn ghost" id="sh">分享</button>
@@ -345,72 +344,7 @@ function showVerse(){
   $("sh").onclick=async()=>{ Snd.fx("send"); if(navigator.share && url){ try{ await navigator.share({text:full}); return; }catch(e){ if(e&&e.name==="AbortError") return; } } copy(full); };
   $("again2").onclick=()=>{ Snd.fx("tap"); let n; do{ n=BLESS[Math.floor(Math.random()*BLESS.length)]; }while(n===S.verse && BLESS.length>1); S.verse=n; showVerse(); Snd.fx("star"); };
   $("replay").onclick=()=>{ Snd.fx("tap"); cover(); window.scrollTo(0,0); };
-  $("dl").onclick=()=>{ Snd.fx("tap"); verseCard(); };
   try{ $("qa").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
-}
-
-/* ===== 祝福經文圖卡（在瀏覽器內用 canvas 產生，不上傳任何資料） ===== */
-const NOSTART="，。、；：！？」』）─";
-function wrapText(ctx,str,maxW){ const out=[]; let line=""; for(const ch of [...str]){ if(ctx.measureText(line+ch).width>maxW && line && !NOSTART.includes(ch)){ out.push(line); line=ch; } else line+=ch; } if(line) out.push(line); return out; }
-async function verseCard(){
-  try{ await document.fonts.ready; }catch(e){}
-  const W=1080,H=1350,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
-  const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b2350"); g.addColorStop(.55,"#0d1433"); g.addColorStop(1,"#05071a"); x.fillStyle=g; x.fillRect(0,0,W,H);
-  // 星空
-  for(let i=0;i<160;i++){ x.globalAlpha=Math.random()*.7+.2; x.fillStyle="#fff"; x.beginPath(); x.arc(Math.random()*W,Math.random()*H*.6,Math.random()*2+.4,0,6.28); x.fill(); }
-  x.globalAlpha=1;
-  // 星星
-  const star=(cx,cy,R,r)=>{ x.beginPath(); for(let i=0;i<10;i++){ const a=-Math.PI/2+i*Math.PI/5, rr=i%2?r:R; x.lineTo(cx+Math.cos(a)*rr, cy+Math.sin(a)*rr); } x.closePath(); };
-  x.save(); x.shadowColor="#ffe9a8"; x.shadowBlur=60; x.fillStyle="#ffd95a"; star(W/2,150,70,30); x.fill(); x.restore();
-  // 卡片
-  const pad=90, cy=280, ch=820;
-  x.fillStyle="#fff8ec"; x.beginPath(); x.roundRect ? x.roundRect(pad,cy,W-pad*2,ch,40) : x.rect(pad,cy,W-pad*2,ch); x.fill();
-  const sans='"Noto Sans TC",sans-serif', serif='"Noto Serif TC","Noto Sans TC",serif';
-  x.textAlign="center"; x.fillStyle="#a07a2a"; x.font=`700 34px ${sans}`;
-  x.fillText(S.name?`給 ${S.name} 的聖誕祝福`:"給你的聖誕祝福", W/2, cy+90);
-  x.fillStyle="#e5b94e"; x.fillRect(W/2-40,cy+120,80,4);
-  const [v,ref,ve,eref]=S.verse;
-  const enFont=(s)=>`italic ${s}px Georgia,"Times New Roman",serif`;
-  const wrapWords=(str,maxW)=>{ const out=[]; let line=""; for(const w of str.split(" ")){ const tryL=line?line+" "+w:w; if(x.measureText(tryL).width>maxW && line){ out.push(line); line=w; } else line=tryL; } if(line) out.push(line); return out; };
-  const maxW=W-pad*2-120, avail=ch-300;
-  let fs=52, es=32, lines, elines, total;
-  for(;;){
-    x.font=`700 ${fs}px ${serif}`; lines=wrapText(x,v,maxW);
-    x.font=enFont(es); elines=wrapWords(ve,maxW);
-    total=lines.length*fs*1.7 + 90 + elines.length*es*1.5 + 50;
-    if(total<=avail || fs<=34) break;
-    fs-=2; es=Math.max(22,es-1);
-  }
-  let y=cy+150+Math.max(0,(avail-total)/2)+fs;
-  x.textAlign="left"; x.fillStyle="#2b2420"; x.font=`700 ${fs}px ${serif}`;
-  lines.forEach(l=>{ x.fillText(l,pad+60,y); y+=fs*1.7; });
-  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 30px ${sans}`; x.fillText(`── ${ref}`, W-pad-60, y-fs*0.5+14);
-  y+=40;
-  x.strokeStyle="#d9c6a3"; x.setLineDash([8,8]); x.beginPath(); x.moveTo(pad+60,y); x.lineTo(W-pad-60,y); x.stroke(); x.setLineDash([]);
-  y+=es*1.5+10;
-  x.textAlign="left"; x.fillStyle="#4a3f36"; x.font=enFont(es);
-  elines.forEach(l=>{ x.fillText(l,pad+60,y); y+=es*1.5; });
-  x.textAlign="right"; x.fillStyle="#7a6650"; x.font=`500 26px Georgia,serif`; x.fillText(`— ${eref} (KJV)`, W-pad-60, y+6);
-  // 底部
-  x.textAlign="center"; x.fillStyle="#f4f1ea"; x.font=`700 40px ${sans}`; x.fillText("🎄 爬上聖誕樹・聖誕經文闖關", W/2, H-130);
-  x.fillStyle="#a8b3c9"; x.font=`500 28px ${sans}`; x.fillText((siteUrl().replace(/^https?:\/\//,"")||"經文引自《和合本》")+"  ・  © 2026 liva", W/2, H-78);
-  const data=c.toDataURL("image/png");
-  let file=null; try{ const blob=await new Promise(r=>c.toBlob(r,"image/png")); file=new File([blob],"christmas-blessing.png",{type:"image/png"}); }catch(e){}
-  const canFile=!!(file && navigator.canShare && navigator.canShare({files:[file]}));
-  const m=document.createElement("div");
-  m.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px";
-  m.innerHTML=`<img src="${data}" alt="祝福經文圖卡" style="max-width:100%;max-height:66vh;border-radius:14px;box-shadow:0 10px 40px #000">
-    <div style="color:#ddd;font-size:13px;text-align:center;line-height:1.7">手機可<b style="color:#fff">長按圖片</b>直接儲存到相簿</div>
-    <div style="display:flex;gap:8px;width:100%;max-width:420px">
-      <a data-a="dl" download="christmas-blessing.png" href="${data}" style="flex:1;text-align:center;text-decoration:none;font-weight:700;padding:13px;border-radius:12px;background:#f6d47a;color:#2a1d05">下載圖片</a>
-      ${canFile?'<button data-a="share" style="flex:1;font:inherit;font-weight:700;padding:13px;border:0;border-radius:12px;background:#06C755;color:#fff">分享圖片</button>':''}
-      <button data-a="close" style="flex:1;font:inherit;font-weight:700;padding:13px;border:1px solid #fff6;border-radius:12px;background:transparent;color:#fff">關閉</button>
-    </div>`;
-  m.addEventListener("click",async e=>{ const a=e.target.closest("[data-a]"); if(!a){ if(e.target===m) m.remove(); return; }
-    if(a.dataset.a==="close") m.remove();
-    if(a.dataset.a==="dl") toast("已下載！到相簿或下載資料夾找找看 📥");
-    if(a.dataset.a==="share"){ try{ await navigator.share({files:[file]}); }catch(err){} } });
-  document.body.appendChild(m);
 }
 
 async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給朋友吧 🎄"); }catch(e){ toast("無法自動複製，可以截圖分享 📸"); } }

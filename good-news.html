@@ -185,85 +185,6 @@ const Snd=(()=>{
 document.addEventListener("visibilitychange",()=>Snd.pause(document.hidden));
 
 
-/* ===== 分享工具：手機分享選單＋結果圖卡（圖卡在瀏覽器內用 canvas 產生，不上傳任何資料） ===== */
-const Share=(()=>{
-  const siteUrl=()=> /claude|anthropic|usercontent/.test(location.hostname)||location.protocol==="file:" ? "" : location.origin+location.pathname;
-  async function copy(s){ try{ await navigator.clipboard.writeText(s); return true; }catch(e){ return false; } }
-  // LINE 與部分 App 不接受「文字＋網址」同時分享，所以把網址併進文字裡，只送一種內容
-  async function text(msg, toastFn){
-    const url=siteUrl(), full=msg+(url?"\n"+url:"");
-    if(navigator.share && url){
-      try{ await navigator.share({text:full}); return; }
-      catch(e){ if(e && e.name==="AbortError") return; }
-    }
-    const ok=await copy(full);
-    toastFn(ok?"已複製！貼給朋友吧 🎄":"無法自動複製，截圖分享也可以 📸");
-  }
-  // LINE 官方分享網址：在手機上會直接打開 LINE 的分享畫面
-  function lineHref(msg){ const url=siteUrl(); return "https://line.me/R/share?text="+encodeURIComponent(msg+(url?"\n"+url:"")); }
-  function wrap(ctx, str, maxW){
-    const out=[]; let line="";
-    for(const ch of [...str]){
-      if(ch==="\n"){ out.push(line); line=""; continue; }
-      if(ctx.measureText(line+ch).width>maxW && line){ out.push(line); line=ch; } else line+=ch;
-    }
-    if(line) out.push(line); return out;
-  }
-  function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-  async function card(o){
-    try{ await document.fonts.ready; }catch(e){}
-    const W=1080,H=1350,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
-    const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,o.bg1); g.addColorStop(1,o.bg2); x.fillStyle=g; x.fillRect(0,0,W,H);
-    const sans='"Noto Sans TC",system-ui,sans-serif', serif='"Noto Serif TC","Noto Sans TC",serif';
-    x.textAlign="center"; x.fillStyle=o.accent; x.font=`700 34px ${sans}`; x.fillText(o.kicker, W/2, 120);
-    x.font=`140px ${sans}`; x.fillText(o.emoji||"🎄", W/2, 300);
-    x.fillStyle=o.text; x.font=`900 84px ${serif}`;
-    let y=430; for(const l of wrap(x,o.title,W-160)){ x.fillText(l,W/2,y); y+=100; }
-    if(o.sub){ x.fillStyle=o.accent2||o.accent; x.font=`700 40px ${sans}`; for(const l of wrap(x,o.sub,W-180)){ x.fillText(l,W/2,y); y+=56; } }
-    y+=20;
-    const rows=o.rows||[], bh=96, by=y;
-    if(rows.length){
-      x.fillStyle="rgba(255,255,255,.09)"; rr(x,90,by,W-180,rows.length*bh+30,32); x.fill();
-      rows.forEach((r,i)=>{ const ry=by+30+i*bh+52;
-        x.textAlign="left"; x.fillStyle=o.muted; x.font=`500 36px ${sans}`; x.fillText(r[0],140,ry);
-        x.textAlign="right"; x.fillStyle=o.text; x.font=`900 44px ${sans}`;
-        let v=r[1]; while(x.measureText(v).width>W-560 && v.length>2) v=v.slice(0,-2)+"…"; x.fillText(v,W-140,ry); });
-      y=by+rows.length*bh+30+60;
-    }
-    if(o.tags && o.tags.length){
-      x.textAlign="center"; x.font=`500 34px ${sans}`; x.fillStyle=o.muted;
-      for(const l of wrap(x,o.tags.join("  "),W-180)){ x.fillText(l,W/2,y); y+=50; }
-    }
-    x.textAlign="center"; x.fillStyle=o.text; x.font=`700 40px ${sans}`; x.fillText(o.cta||"你也來玩玩看 👉", W/2, H-170);
-    x.fillStyle=o.muted; x.font=`500 30px ${sans}`; x.fillText(siteUrl().replace(/^https?:\/\//,"")||"聖誕節線上小遊戲 2026", W/2, H-115);
-    x.font=`500 24px ${sans}`; x.fillText("© 2026 liva", W/2, H-70);
-    return c;
-  }
-  function modal(dataUrl, canShareFile, onShare){
-    const m=document.createElement("div");
-    m.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px;font-family:'Noto Sans TC',sans-serif";
-    m.innerHTML=`<img src="${dataUrl}" alt="結果圖卡" style="max-width:100%;max-height:68vh;border-radius:14px;box-shadow:0 10px 40px #000">
-      <div style="color:#ddd;font-size:13px;text-align:center;line-height:1.7">手機可<b style="color:#fff">長按圖片</b>儲存，再分享到限動<br>傳 LINE：先存圖片，再到 LINE 聊天室傳送最穩定</div>
-      <div style="display:flex;gap:8px;width:100%;max-width:420px">
-        ${canShareFile?'<button data-a="share" style="flex:1;font:inherit;font-weight:700;padding:13px;border:0;border-radius:12px;background:#e3263f;color:#fff">分享圖片</button>':''}
-        <a data-a="dl" download="xmas-result.png" href="${dataUrl}" style="flex:1;text-align:center;text-decoration:none;font-weight:700;padding:13px;border-radius:12px;background:#fff;color:#111">下載圖片</a>
-        <button data-a="close" style="flex:1;font:inherit;font-weight:700;padding:13px;border:1px solid #fff6;border-radius:12px;background:transparent;color:#fff">關閉</button>
-      </div>`;
-    m.addEventListener("click",e=>{ const a=e.target.closest("[data-a]"); if(!a){ if(e.target===m) m.remove(); return; }
-      if(a.dataset.a==="close") m.remove(); if(a.dataset.a==="share") onShare(); });
-    document.body.appendChild(m);
-  }
-  async function image(opts, msg, toastFn){
-    try{
-      const c=await card(opts), url=c.toDataURL("image/png");
-      let file=null; try{ const blob=await new Promise(r=>c.toBlob(r,"image/png")); file=new File([blob],"xmas-result.png",{type:"image/png"}); }catch(e){}
-      const canShareFile=!!(file && navigator.canShare && navigator.canShare({files:[file]}));
-      modal(url, canShareFile, async()=>{ try{ await navigator.share({files:[file]}); }catch(e){} });
-    }catch(e){ toastFn("圖卡產生失敗，截圖分享也可以 📸"); }
-  }
-  return {text, image, siteUrl, lineHref};
-})();
-
 /* ===== 資料：佳音鏈存在網址 #g= 裡，不經過任何伺服器 ===== */
 const MAX_KEEP = 24, NAME_MAX = 8, BLESS_MAX = 14;
 const ORIGIN = {n:1, c:[["天使","不要懼怕！大喜的信息"]]};
@@ -482,7 +403,6 @@ function done(){
     <div style="display:flex;gap:8px;margin-top:9px">
       <a id="line" class="btn" target="_blank" rel="noopener" style="margin:0;flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;text-decoration:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
       <button class="btn ghost" id="copy" style="margin:0">複製連結</button>
-      <button class="btn ghost" id="img" style="margin:0">📸 圖卡</button>
     </div>
     <p class="hint" style="line-height:1.8">不轉傳也沒關係——<br>這個好消息，已經是你的了。</p>
     <a class="treelink" href="./tree.html" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:12px;text-decoration:none">🎄 另一個遊戲：爬上聖誕樹（經文闖關）→</a>
@@ -500,14 +420,6 @@ function done(){
   document.getElementById("line").href="https://line.me/R/share?text="+encodeURIComponent(full);
   document.getElementById("line").addEventListener("click",()=>Snd.fx("send"));
   document.getElementById("copy").onclick=()=>{ Snd.fx("tap"); copy(full); };
-  document.getElementById("img").onclick=()=>{ Snd.fx("tap");
-    const prev = nx.c.length>1 ? nx.c[nx.c.length-2][0] : "天使";
-    Share.image({ bg1:"#0d1433", bg2:"#05071a", accent:"#f6d47a", accent2:"#ffe9a8", text:"#f4f1ea", muted:"#a8b3c9",
-      kicker:"聖誕佳音接力・這個佳音，傳到你了", emoji:"🌟", title:`我是第 ${nx.n} 站`, sub:`「${S.me[1]}」`,
-      rows:[["我的名字",S.me[0]],["從誰手上接到",prev],["起點","伯利恆的天使"]],
-      tags:["路加福音 2:17","既然看見，就將天使論這孩子的話傳開了"], cta:"這個佳音，也想傳給你 👉" }, txt, toast);
-    setTimeout(()=>toast("圖片不會附帶連結，記得也把連結傳給朋友喔"),2600);
-  };
 }
 function showTree(){ if(/claude|anthropic|usercontent/.test(location.hostname)||location.protocol==="file:") return; document.querySelectorAll(".treelink").forEach(a=>a.style.display="block"); document.querySelectorAll(".hbtn").forEach(a=>a.style.display="flex"); }
 async function copy(s){ try{ await navigator.clipboard.writeText(s); toast("已複製！貼給你想祝福的人 🌟"); }catch(e){ toast("請長按網址列複製連結"); } }
