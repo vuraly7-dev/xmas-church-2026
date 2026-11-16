@@ -38,6 +38,16 @@ h1 em{font-style:normal;color:var(--gold)}
 .verse{font-family:"Noto Serif TC",serif;font-size:19px;line-height:2;text-align:center;color:#fff;text-shadow:0 2px 18px #000c;animation:fadein 1s ease}
 .verse small{display:block;font-family:"Noto Sans TC";font-size:12px;color:var(--gold);margin-top:6px;letter-spacing:.1em}
 .grow{flex:1}
+.tip{text-align:center;font-size:16px;font-weight:700;color:var(--gold2);margin-top:10px;line-height:1.6}
+.tip small{display:block;font-size:13px;font-weight:400;color:var(--muted);margin-top:2px}
+.btn.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px #e5b94e30,0 8px 26px #e5b94e66;transform:scale(1.025)}}
+.finger{position:absolute;z-index:6;font-size:36px;pointer-events:none;transition:left 1.6s ease-out,top 1.6s ease-out,opacity .4s;filter:drop-shadow(0 3px 6px #000a)}
+.finger span{display:inline-block;animation:tapme .9s ease-in-out infinite}
+@keyframes tapme{50%{transform:translate(3px,9px) scale(.88)}}
+.taphint{position:absolute;left:50%;top:21%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;text-align:center;color:#fff;font-weight:700;font-size:17px;line-height:1.6;text-shadow:0 2px 12px #000c;transition:opacity .5s;white-space:nowrap}
+.taphint .finger{position:static;display:block;font-size:52px;margin-bottom:6px}
+.taphint .ripple{position:absolute;left:50%;top:30px;width:70px;height:70px;margin-left:-35px;border:3px solid #ffe9a8;border-radius:50%;animation:ring 1.2s ease-out infinite}
 .nw{white-space:nowrap}
 h1,.lead,.verse,.hint{line-break:strict;text-wrap:pretty}
 .btn{display:block;width:100%;font:inherit;font-weight:700;font-size:16.5px;border:0;border-radius:14px;padding:15px;cursor:pointer;
@@ -63,6 +73,8 @@ h1,.lead,.verse,.hint{line-break:strict;text-wrap:pretty}
 .field{position:relative;flex:1;margin:10px -22px 0}
 .sheep{position:absolute;font-size:38px;cursor:pointer;transition:left 1.6s ease-out,top 1.6s ease-out,transform .2s;user-select:none;filter:drop-shadow(0 4px 6px #0008)}
 .sheep.stray{animation:wob .5s infinite}
+.sheep.stray::after{content:"";position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border:3px solid #ffe9a8;border-radius:50%;animation:ring 1s ease-out infinite;pointer-events:none}
+@keyframes ring{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.35);opacity:0}}
 @keyframes wob{50%{transform:rotate(-8deg)}}
 .fire{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);font-size:34px;filter:drop-shadow(0 0 22px #ff9a3c)}
 .bar{height:6px;background:#ffffff1a;border-radius:9px;overflow:hidden;margin-top:8px}
@@ -265,7 +277,7 @@ function arrive(){
       :`<div class="count" style="margin-top:6px">${n}<small> 站</small></div><p class="lead">這個好消息已經經過 ${n} 站，<br>最後一位是 <b style="color:var(--gold2)">${esc(list[list.length-1][0])}</b>，把它傳給了你。</p>`}
     <div class="const">${constellation(list,false)}</div>
     ${S.first?"":`<div class="chainlist">${chainHTML(list.slice(-6), n-Math.min(6,list.length))}</div>`}
-    <button class="btn" id="go">收下這個佳音（約 2 分鐘）</button>
+    <button class="btn pulse" id="go">收下這個佳音（約 2 分鐘）</button>
     <a class="treelink" href="./tree.html" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:12px;text-decoration:none">🎄 另一個遊戲：爬上聖誕樹（經文闖關）→</a>
     <div class="foot">有聖誕詩歌背景音樂，可按右上角 🎵 關閉<br>純屬原創互動故事・經文取自《和合本》・© 2026 liva</div>
   </div>`;
@@ -278,22 +290,24 @@ function sheep(){
   app.innerHTML=`<div class="scene">
     <div class="k">第一幕・伯利恆的野地</div>
     <p class="verse" style="margin-top:14px">在伯利恆之野地裡有牧羊的人，<br>夜間按著更次看守羊群。<small>路加福音 2:8</small></p>
-    <p class="hint"><span class=nw>你是值夜班的牧羊人。</span><br><span class=nw>羊走散了，點牠們帶回火堆旁！</span></p>
+    <p class="tip"><span class=nw>👆 羊走散了！點一下閃著光圈的小羊，</span><br><span class=nw>牠就會回到火堆旁</span><small>已帶回 <b id="sv" style="color:var(--gold)">0</b> 隻・夜晚進度</small></p>
     <div class="bar"><i id="bar"></i></div>
     <div class="field" id="field"><div class="fire">🔥</div></div>
   </div><div class="hills"></div>`;
   const F=document.getElementById("field"), fw=()=>F.clientWidth, fh=()=>F.clientHeight;
   const home=i=>[fw()/2-19+Math.cos(i*1.05)*58, fh()*.62+Math.sin(i*1.05)*34];
-  const sh=[];
+  const sh=[]; const fg=document.createElement("div"); fg.className="finger"; fg.innerHTML="<span>👆</span>"; fg.style.opacity=0; F.appendChild(fg);
+  const point=()=>{ const st=sh.find(x=>x.classList.contains("stray")); if(!st||saved>=3){ fg.style.opacity=0; return; } fg.style.left=(parseFloat(st.style.left)+16)+"px"; fg.style.top=(parseFloat(st.style.top)+34)+"px"; fg.style.opacity=1; };
   for(let i=0;i<6;i++){ const d=document.createElement("div"); d.className="sheep"; d.textContent="🐑";
     const [x,y]=home(i); d.style.left=x+"px"; d.style.top=y+"px"; F.appendChild(d); sh.push(d);
-    d.addEventListener("pointerdown",e=>{ e.preventDefault(); if(!d.classList.contains("stray")) return; d.classList.remove("stray"); Snd.fx("sheep"); const [hx,hy]=home(i); d.style.left=hx+"px"; d.style.top=hy+"px"; saved++; }); }
+    d.addEventListener("pointerdown",e=>{ e.preventDefault(); if(!d.classList.contains("stray")) return; d.classList.remove("stray"); Snd.fx("sheep"); const [hx,hy]=home(i); d.style.left=hx+"px"; d.style.top=hy+"px"; saved++; document.getElementById("sv").textContent=saved; point(); }); }
   let saved=0, t=0; const DUR=16;
   const iv=setInterval(()=>{ t+=1; document.getElementById("bar").style.width=Math.min(100,t/DUR*100)+"%";
     const calm=sh.filter(s=>!s.classList.contains("stray"));
     if(calm.length && t<DUR-1){ const s=calm[Math.floor(Math.random()*calm.length)]; s.classList.add("stray");
       s.style.left=(Math.random()<.5? 4+Math.random()*30 : fw()-60-Math.random()*30)+"px"; s.style.top=(fh()*.18+Math.random()*fh()*.5)+"px"; }
-    if(t>=DUR){ clearInterval(iv); sh.forEach((s,i)=>{ s.classList.remove("stray"); const [x,y]=home(i); s.style.left=x+"px"; s.style.top=y+"px"; }); setTimeout(angels,1400); }
+    point();
+    if(t>=DUR){ clearInterval(iv); fg.style.opacity=0; sh.forEach((s,i)=>{ s.classList.remove("stray"); const [x,y]=home(i); s.style.left=x+"px"; s.style.top=y+"px"; }); setTimeout(angels,1400); }
   },1000);
 }
 
@@ -311,22 +325,23 @@ async function angels(){
   const vbox=document.getElementById("vbox"), act=document.getElementById("act"), tz=document.getElementById("tz"), sc=document.getElementById("as");
   const say=(html)=>{ vbox.innerHTML=`<p class="verse">${html}</p>`; };
   let lights=0;
-  const spawn=(x,y)=>{ if(lights<12||lights%5===0) Snd.fx("spark",lights); const s=document.createElement("div"); s.className="spark"; s.style.left=x+"px"; s.style.top=y+"px"; s.style.animationDelay=(Math.random()*2)+"s"; sc.appendChild(s); lights++; };
+  const spawn=(x,y)=>{ if(lights<8||lights%5===0) Snd.fx("spark",lights); const s=document.createElement("div"); s.className="spark"; s.style.left=x+"px"; s.style.top=y+"px"; s.style.animationDelay=(Math.random()*2)+"s"; sc.appendChild(s); lights++; };
   say(`有主的使者站在他們旁邊，<br>主的榮光四面照著他們；<br>牧羊的人就甚懼怕。<small>路加福音 2:9</small>`);
   await sleep(2600);
-  act.innerHTML=`<p class="hint">點夜空，讓天上的光一一亮起 ✨ <b id="lc" style="color:var(--gold)">0</b> / 12</p>`;
-  await new Promise(res=>{ tz.onpointerdown=e=>{ const r=sc.getBoundingClientRect(); spawn(e.clientX-r.left,e.clientY-r.top); document.getElementById("lc").textContent=Math.min(lights,12); if(lights>=12){ tz.onpointerdown=null; res(); } }; });
+  act.innerHTML=`<p class="tip">點夜空，讓天上的光一一亮起 ✨ <b id="lc" style="color:var(--gold)">0</b> / 8</p>`;
+  const th=document.createElement("div"); th.className="taphint"; th.innerHTML=`<div class="ripple"></div><div class="finger"><span>👆</span></div>點畫面任何地方`; sc.appendChild(th);
+  await new Promise(res=>{ tz.onpointerdown=e=>{ const r=sc.getBoundingClientRect(); spawn(e.clientX-r.left,e.clientY-r.top); document.getElementById("lc").textContent=Math.min(lights,8); if(lights>=2) th.style.opacity=0; if(lights>=8){ th.remove(); tz.onpointerdown=null; res(); } }; });
   act.innerHTML="";
   say(`那天使對他們說：<br><span class=nw>「不要懼怕！</span><br><span class=nw>我報給你們大喜的信息，</span><br><span class=nw>是關乎萬民的；</span><br><span class=nw>因今天在大衛的城裡，</span><br><span class=nw>為你們生了救主，</span><br><span class=nw>就是主基督。」</span><small>路加福音 2:10–11</small>`);
   await sleep(1200);
-  act.innerHTML=`<button class="btn" id="n1">繼續</button>`;
+  act.innerHTML=`<button class="btn pulse" id="n1">繼續 →</button>`;
   await new Promise(r=>document.getElementById("n1").onclick=()=>{ Snd.fx("tap"); r(); });
   act.innerHTML="";
   const w=sc.clientWidth,h=sc.clientHeight;
   for(let i=0;i<40;i++){ setTimeout(()=>spawn(Math.random()*w, Math.random()*h*.55), i*60); }
   say(`<span class=nw>忽然，有一大隊天兵</span><br><span class=nw>同那天使讚美神說：</span><br><b style="font-size:23px;color:var(--gold2)"><span class=nw>「在至高之處榮耀歸與神！</span><br><span class=nw>在地上平安</span><br><span class=nw>歸與他所喜悅的人！」</span></b><small>路加福音 2:13–14</small>`);
   await sleep(2400);
-  act.innerHTML=`<button class="btn" id="n2">「我們往伯利恆去！」</button>`;
+  act.innerHTML=`<button class="btn pulse" id="n2">「我們往伯利恆去！」</button>`;
   document.getElementById("n2").onclick=()=>{ Snd.fx("tap"); walk(); };
 }
 
@@ -338,12 +353,13 @@ function walk(){
     <p class="verse" style="margin-top:12px;font-size:17px"><span class=nw>牧羊的人彼此說：</span><br><span class=nw>「我們往伯利恆去，</span><br><span class=nw>看看所成的事，</span><br><span class=nw>就是主所指示我們的。」</span><small>路加福音 2:15</small></p>
     <div class="road"><div class="town" id="town"><div class="stable"><div class="beam"></div><div class="bstar">⭐</div><div class="roof"></div><div class="body"></div><div class="glow"></div></div></div></div>
     <div class="steps" id="steps"></div>
-    <button class="btn" id="step">往前走 👣</button>
+    <button class="btn pulse" id="step">👣 往前走（還有 7 步）</button>
     <p class="hint" id="sh">他們急忙去了……</p>
   </div><div class="hills"></div>`;
   let k=0; const N=7;
   document.getElementById("step").onclick=async()=>{
     k++; Snd.fx("step"); document.getElementById("steps").textContent="👣".repeat(k);
+    if(k<N) document.getElementById("step").textContent=`👣 往前走（還有 ${N-k} 步）`;
     document.getElementById("town").style.transform=`translate(-50%,-50%) scale(${.35+k/N*.85})`;
     if(k>=N){
       document.getElementById("step").remove();
@@ -358,7 +374,7 @@ function walk(){
       v2.innerHTML=`既然看見，<br><span class=nw>就將天使論這孩子的話傳開了。</span><small>路加福音 2:17</small>`;
       sc.appendChild(v2);
       await sleep(1600);
-      const b=document.createElement("button"); b.className="btn"; b.style.marginTop="12px"; b.textContent="輪到我傳下去 ✨"; b.onclick=()=>{ Snd.fx("tap"); form(); }; sc.appendChild(b);
+      const b=document.createElement("button"); b.className="btn pulse"; b.style.marginTop="12px"; b.textContent="輪到我傳下去 ✨"; b.onclick=()=>{ Snd.fx("tap"); form(); }; sc.appendChild(b);
     }
   };
 }
@@ -371,13 +387,13 @@ function form(){
     <div class="k">你的星星</div>
     <h1 style="font-size:28px">在星路上，<br>留下你的名字</h1>
     <p class="lead" style="margin-bottom:16px"><span class=nw>下一個收到佳音的人，</span><br><span class=nw>會看見你的名字和祝福。</span></p>
-    <label>你的暱稱（建議不要用全名）</label>
+    <label>① 寫下你的暱稱（建議不要用全名）</label>
     <input class="name" id="nm" maxlength="${NAME_MAX}" placeholder="例如：小君" autocomplete="off">
-    <label>選一句祝福給下一位</label>
+    <label>② 點一句祝福送給下一位，或自己寫</label>
     <div class="chips" id="chips">${BLESS.map((b,i)=>`<button class="chip ${i?"":"on"}" data-b="${b}">${b}</button>`).join("")}</div>
     <input class="name" id="own" maxlength="${BLESS_MAX}" placeholder="或自己寫一句（${BLESS_MAX} 字內）" autocomplete="off" style="margin-top:4px">
     <div class="grow"></div>
-    <button class="btn" id="lit">點亮我的星星 ⭐</button>
+    <button class="btn pulse" id="lit">③ 點亮我的星星 ⭐</button>
     <p class="hint"><span class=nw>名字和祝福只存在分享連結裡，</span><br><span class=nw>本網站不會收集或儲存任何資料。</span></p>
   </div>`;
   document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ Snd.fx("tap"); document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on")); c.classList.add("on"); pick=c.dataset.b; document.getElementById("own").value=""; });
@@ -401,7 +417,7 @@ function done(){
     <h1 style="font-size:28px">你的星星<br><em>亮起來了</em></h1>
     <div class="const">${constellation(nx.c,true)}</div>
     <div class="chainlist">${chainHTML(nx.c.slice(-4), nx.n-Math.min(4,nx.c.length))}</div>
-    <button class="btn" id="share">把佳音傳給一位朋友 🌟</button>
+    <button class="btn pulse" id="share">把佳音傳給一位朋友 🌟</button>
     <div style="display:flex;gap:8px;margin-top:9px">
       <a id="line" class="btn" target="_blank" rel="noopener" style="margin:0;flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;text-decoration:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
       <button class="btn ghost" id="copy" style="margin:0">複製連結</button>
