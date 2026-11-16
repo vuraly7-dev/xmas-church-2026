@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="一個從兩千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
+<meta name="description" content="一個從二千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="聖誕佳音接力">
 <meta property="og:title" content="這個佳音，傳到你了 🌟｜聖誕佳音接力">
-<meta property="og:description" content="一個從兩千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
+<meta property="og:description" content="一個從二千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
 <meta property="og:url" content="https://vuraly7-dev.github.io/xmas-church-2026/good-news.html">
 <meta property="og:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og-good-news.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="這個佳音，傳到你了 🌟｜聖誕佳音接力">
-<meta name="twitter:description" content="一個從兩千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
+<meta name="twitter:description" content="一個從二千年前伯利恆傳來的好消息，一站一站傳到你手上。走一趟牧羊人的聖誕夜，再把佳音傳下去。">
 <meta name="twitter:image" content="https://vuraly7-dev.github.io/xmas-church-2026/og-good-news.png">
 <meta name="theme-color" content="#05071a">
 <title>這個佳音，傳到你了｜聖誕佳音接力</title>
@@ -38,6 +38,8 @@ h1 em{font-style:normal;color:var(--gold)}
 .verse{font-family:"Noto Serif TC",serif;font-size:19px;line-height:2;text-align:center;color:#fff;text-shadow:0 2px 18px #000c;animation:fadein 1s ease}
 .verse small{display:block;font-family:"Noto Sans TC";font-size:12px;color:var(--gold);margin-top:6px;letter-spacing:.1em}
 .grow{flex:1}
+.nw{white-space:nowrap}
+h1,.lead,.verse,.hint{line-break:strict;text-wrap:pretty}
 .btn{display:block;width:100%;font:inherit;font-weight:700;font-size:16.5px;border:0;border-radius:14px;padding:15px;cursor:pointer;
   background:linear-gradient(180deg,#f8dc8a,#e5b94e);color:#2a1d05;box-shadow:0 8px 26px #e5b94e44}
 .btn.ghost{background:transparent;color:var(--text);border:1px solid #ffffff33;box-shadow:none;margin-top:9px}
@@ -46,7 +48,7 @@ h1 em{font-style:normal;color:var(--gold)}
 .foot{text-align:center;font-size:11px;color:#6d7894;margin-top:12px;line-height:1.7}
 
 /* constellation */
-.const{position:relative;flex:1 0 150px;min-height:150px;margin:8px -10px}
+.const{position:relative;flex:1 0 200px;min-height:200px;margin:8px -10px}
 .const svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .chainlist{flex:none;max-height:120px;overflow-y:auto;background:#ffffff0a;border:1px solid #ffffff18;border-radius:14px;padding:6px 12px;margin-bottom:12px;font-size:13.5px}
 .chainlist div{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed #ffffff14;line-height:1.5}
@@ -115,9 +117,9 @@ const Snd=(()=>{
   const N={C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196,A3:220,B3:246.94,C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,B4:493.88,
     C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880,B5:987.77,C6:1046.5,D6:1174.66,E6:1318.51,F6:1396.91,G6:1567.98};
   const SONGS=[
-    {bpm:62,bar:6,mel:"G5 1.5,A5 .5,G5 1,E5 3,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,B5 3,C6 2,C6 1,G5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,F6 1.5,D6 .5,B5 1,C6 3,E6 3,C6 1,G5 1,E5 1,G5 1.5,F5 .5,D5 1,C5 6",
+    {bpm:84,bar:6,mel:"G5 1.5,A5 .5,G5 1,E5 3,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,B5 3,C6 2,C6 1,G5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,F6 1.5,D6 .5,B5 1,C6 3,E6 3,C6 1,G5 1,E5 1,G5 1.5,F5 .5,D5 1,C5 6",
      bass:"C3 C3 G3 C3 F3 C3 F3 C3 G3 C3 G3 C3"},
-    {bpm:84,bar:4,mel:"C6 1,B5 .75,A5 .25,G5 1.5,F5 .5,E5 1,D5 1,C5 1.5,G5 .5,A5 1.5,A5 .5,B5 1.5,B5 .5,C6 3,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,F5 .25,G5 1.25,F5 .5,E5 .5,D5 .5,D5 .5,D5 .5,D5 .25,E5 .25,F5 1.5,E5 .5,D5 .5,C5 .5,C6 1,A5 .5,G5 .75,F5 .25,E5 .5,F5 .5,E5 1,D5 1,C5 3",
+    {bpm:108,bar:4,mel:"C6 1,B5 .75,A5 .25,G5 1.5,F5 .5,E5 1,D5 1,C5 1.5,G5 .5,A5 1.5,A5 .5,B5 1.5,B5 .5,C6 3,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,F5 .25,G5 1.25,F5 .5,E5 .5,D5 .5,D5 .5,D5 .5,D5 .25,E5 .25,F5 1.5,E5 .5,D5 .5,C5 .5,C6 1,A5 .5,G5 .75,F5 .25,E5 .5,F5 .5,E5 1,D5 1,C5 3",
      bass:""}
   ];
   let ctx=null, mus=null, sfx=null, musicOn=true, started=false, timer=null, si=0, ni=0, t0=0, notes=[], beat=0, unlocked=false;
@@ -155,7 +157,7 @@ const Snd=(()=>{
     const ahead=ctx.currentTime+.7;
     while(t0<ahead){
       if(ni>=notes.length){ si++; load(t0+beat*4); continue; }
-      const [n,d]=notes[ni++]; box(mus,N[n],t0,.16,Math.max(.8,d*beat*1.5)); t0+=d*beat;
+      const [n,d]=notes[ni++]; box(mus,N[n],t0,.16,Math.max(.55,d*beat*1.25)); t0+=d*beat;
     }
   }
   function tone(f1,f2,t,len,vol){
@@ -233,11 +235,11 @@ function constellation(list, highlightLast){
   let path=""; pts.forEach((p,i)=>{ path+=(i?"L":"M")+p[0]+" "+p[1]+" "; });
   const circles=pts.map((p,i)=>{
     const last = highlightLast && i===n-1, first=i===0;
-    const r = last?2.6:first?2.2:1.4;
+    const r = last?3.4:first?3:2;
     const col = last?"#fff":first?"#ffe9a8":"#f6d47a";
-    const label = (last||first||n<=8||i%Math.ceil(n/6)===0) ? `<text x="${p[0]+ (p[0]>70?-3:3)}" y="${p[1]+1}" font-size="3.4" fill="${last?"#fff":"#cfd6e6"}" text-anchor="${p[0]>70?"end":"start"}" font-family="Noto Sans TC">${esc(list[i][0])}</text>`:"";
+    const label = (last||first||n<=8||i%Math.ceil(n/6)===0) ? `<text x="${p[0]+ (p[0]>70?-4.5:4.5)}" y="${p[1]+1.8}" font-size="5.2" fill="${last?"#fff":"#cfd6e6"}" text-anchor="${p[0]>70?"end":"start"}" font-family="Noto Sans TC">${esc(list[i][0])}</text>`:"";
     return `<circle cx="${p[0]}" cy="${p[1]}" r="${r*2.4}" fill="${col}" opacity=".18"><animate attributeName="opacity" values=".1;.35;.1" dur="${2+i%3}s" repeatCount="indefinite"/></circle>
-            <circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${col}">${last?'<animate attributeName="r" values="2.2;3.2;2.2" dur="1.6s" repeatCount="indefinite"/>':""}</circle>${label}`;
+            <circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${col}">${last?'<animate attributeName="r" values="3.2;4.4;3.2" dur="1.6s" repeatCount="indefinite"/>':""}</circle>${label}`;
   }).join("");
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
     <path d="${path}" fill="none" stroke="#f6d47a" stroke-width=".35" stroke-dasharray="1 1.2" opacity=".75"/>
@@ -257,7 +259,7 @@ function arrive(){
   const n=S.chain.n, list=S.chain.c, offset=n-list.length;
   app.innerHTML=`<div class="scene">
     <div class="k">聖誕佳音接力</div>
-    <h1>${S.first?"兩千年前的好消息，<br>今晚<em>傳到你了</em>":"這個佳音，<br><em>傳到你了</em>"}</h1>
+    <h1>${S.first?"<span class=nw>二千年前的好消息</span><br><span class=nw>今晚<em>傳到你了</em></span>":"這個佳音，<br><em>傳到你了</em>"}</h1>
     ${S.first
       ?`<p class="lead">從伯利恆的夜晚開始，<br>這個好消息一站一站傳到今天。<br>現在，由你接下第 2 棒。</p>`
       :`<div class="count" style="margin-top:6px">${n}<small> 站</small></div><p class="lead">這個好消息已經經過 ${n} 站，<br>最後一位是 <b style="color:var(--gold2)">${esc(list[list.length-1][0])}</b>，把它傳給了你。</p>`}
@@ -276,7 +278,7 @@ function sheep(){
   app.innerHTML=`<div class="scene">
     <div class="k">第一幕・伯利恆的野地</div>
     <p class="verse" style="margin-top:14px">在伯利恆之野地裡有牧羊的人，<br>夜間按著更次看守羊群。<small>路加福音 2:8</small></p>
-    <p class="hint">你是值夜班的牧羊人。羊走散了，點牠們帶回火堆旁！</p>
+    <p class="hint"><span class=nw>你是值夜班的牧羊人。</span><br><span class=nw>羊走散了，點牠們帶回火堆旁！</span></p>
     <div class="bar"><i id="bar"></i></div>
     <div class="field" id="field"><div class="fire">🔥</div></div>
   </div><div class="hills"></div>`;
@@ -315,14 +317,14 @@ async function angels(){
   act.innerHTML=`<p class="hint">點夜空，讓天上的光一一亮起 ✨ <b id="lc" style="color:var(--gold)">0</b> / 12</p>`;
   await new Promise(res=>{ tz.onpointerdown=e=>{ const r=sc.getBoundingClientRect(); spawn(e.clientX-r.left,e.clientY-r.top); document.getElementById("lc").textContent=Math.min(lights,12); if(lights>=12){ tz.onpointerdown=null; res(); } }; });
   act.innerHTML="";
-  say(`那天使對他們說：<br>「不要懼怕！我報給你們大喜的信息，<br>是關乎萬民的；<br>因今天在大衛的城裡，<br>為你們生了救主，就是主基督。」<small>路加福音 2:10–11</small>`);
+  say(`那天使對他們說：<br><span class=nw>「不要懼怕！</span><br><span class=nw>我報給你們大喜的信息，</span><br><span class=nw>是關乎萬民的；</span><br><span class=nw>因今天在大衛的城裡，</span><br><span class=nw>為你們生了救主，</span><br><span class=nw>就是主基督。」</span><small>路加福音 2:10–11</small>`);
   await sleep(1200);
   act.innerHTML=`<button class="btn" id="n1">繼續</button>`;
   await new Promise(r=>document.getElementById("n1").onclick=()=>{ Snd.fx("tap"); r(); });
   act.innerHTML="";
   const w=sc.clientWidth,h=sc.clientHeight;
   for(let i=0;i<40;i++){ setTimeout(()=>spawn(Math.random()*w, Math.random()*h*.55), i*60); }
-  say(`忽然，有一大隊天兵同那天使讚美神說：<br><b style="font-size:23px;color:var(--gold2)">「在至高之處榮耀歸與神！<br>在地上平安歸與他所喜悅的人！」</b><small>路加福音 2:13–14</small>`);
+  say(`<span class=nw>忽然，有一大隊天兵</span><br><span class=nw>同那天使讚美神說：</span><br><b style="font-size:23px;color:var(--gold2)"><span class=nw>「在至高之處榮耀歸與神！</span><br><span class=nw>在地上平安</span><br><span class=nw>歸與他所喜悅的人！」</span></b><small>路加福音 2:13–14</small>`);
   await sleep(2400);
   act.innerHTML=`<button class="btn" id="n2">「我們往伯利恆去！」</button>`;
   document.getElementById("n2").onclick=()=>{ Snd.fx("tap"); walk(); };
@@ -333,7 +335,7 @@ function walk(){
   stage.classList.remove("glory");
   app.innerHTML=`<div class="scene">
     <div class="k">第三幕・往伯利恆去</div>
-    <p class="verse" style="margin-top:12px;font-size:17px">牧羊的人彼此說：「我們往伯利恆去，<br>看看所成的事，就是主所指示我們的。」<small>路加福音 2:15</small></p>
+    <p class="verse" style="margin-top:12px;font-size:17px"><span class=nw>牧羊的人彼此說：</span><br><span class=nw>「我們往伯利恆去，</span><br><span class=nw>看看所成的事，</span><br><span class=nw>就是主所指示我們的。」</span><small>路加福音 2:15</small></p>
     <div class="road"><div class="town" id="town"><div class="stable"><div class="beam"></div><div class="bstar">⭐</div><div class="roof"></div><div class="body"></div><div class="glow"></div></div></div></div>
     <div class="steps" id="steps"></div>
     <button class="btn" id="step">往前走 👣</button>
@@ -353,7 +355,7 @@ function walk(){
       sc.appendChild(v);
       await sleep(2600);
       const v2=document.createElement("p"); v2.className="verse"; v2.style.cssText="font-size:21px;margin-top:10px;color:var(--gold2)";
-      v2.innerHTML=`既然看見，<br>就將天使論這孩子的話傳開了。<small>路加福音 2:17</small>`;
+      v2.innerHTML=`既然看見，<br><span class=nw>就將天使論這孩子的話傳開了。</span><small>路加福音 2:17</small>`;
       sc.appendChild(v2);
       await sleep(1600);
       const b=document.createElement("button"); b.className="btn"; b.style.marginTop="12px"; b.textContent="輪到我傳下去 ✨"; b.onclick=()=>{ Snd.fx("tap"); form(); }; sc.appendChild(b);
@@ -368,7 +370,7 @@ function form(){
   app.innerHTML=`<div class="scene">
     <div class="k">你的星星</div>
     <h1 style="font-size:28px">在星路上，<br>留下你的名字</h1>
-    <p class="lead" style="margin-bottom:16px">下一個收到佳音的人，會看見你的名字和祝福。</p>
+    <p class="lead" style="margin-bottom:16px"><span class=nw>下一個收到佳音的人，</span><br><span class=nw>會看見你的名字和祝福。</span></p>
     <label>你的暱稱（建議不要用全名）</label>
     <input class="name" id="nm" maxlength="${NAME_MAX}" placeholder="例如：小君" autocomplete="off">
     <label>選一句祝福給下一位</label>
@@ -376,7 +378,7 @@ function form(){
     <input class="name" id="own" maxlength="${BLESS_MAX}" placeholder="或自己寫一句（${BLESS_MAX} 字內）" autocomplete="off" style="margin-top:4px">
     <div class="grow"></div>
     <button class="btn" id="lit">點亮我的星星 ⭐</button>
-    <p class="hint">名字和祝福只存在分享連結裡，本網站不會收集或儲存任何資料。</p>
+    <p class="hint"><span class=nw>名字和祝福只存在分享連結裡，</span><br><span class=nw>本網站不會收集或儲存任何資料。</span></p>
   </div>`;
   document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ Snd.fx("tap"); document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on")); c.classList.add("on"); pick=c.dataset.b; document.getElementById("own").value=""; });
   document.getElementById("lit").onclick=()=>{
@@ -396,7 +398,7 @@ function done(){
   try{ history.replaceState(null,"","#g="+enc(nx)); }catch(e){}
   app.innerHTML=`<div class="scene">
     <div class="k">你是第 ${nx.n} 站</div>
-    <h1 style="font-size:28px">你的星星，<br><em>亮起來了</em></h1>
+    <h1 style="font-size:28px">你的星星<br><em>亮起來了</em></h1>
     <div class="const">${constellation(nx.c,true)}</div>
     <div class="chainlist">${chainHTML(nx.c.slice(-4), nx.n-Math.min(4,nx.c.length))}</div>
     <button class="btn" id="share">把佳音傳給一位朋友 🌟</button>
@@ -408,7 +410,7 @@ function done(){
     <a class="treelink" href="./tree.html" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:12px;text-decoration:none">🎄 另一個遊戲：爬上聖誕樹（經文闖關）→</a>
     <div class="foot">傳給不同的人，就會長出不同的星路・© 2026 liva</div>
   </div>`;
-  const txt=`有一個從兩千年前傳來的好消息，已經經過 ${nx.n} 站，現在傳到你手上了 🌟\n${S.me[0]}：「${S.me[1]}」`;
+  const txt=`有一個從二千年前傳來的好消息，已經經過 ${nx.n} 站，現在傳到你手上了 🌟\n${S.me[0]}：「${S.me[1]}」`;
   const full=txt+"\n"+link;
   // LINE 與部分 App 不接受「文字＋網址」分開送，所以把連結併在文字裡，只送一段文字
   document.getElementById("share").onclick=async()=>{
