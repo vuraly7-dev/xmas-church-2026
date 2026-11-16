@@ -30,7 +30,7 @@ body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--text);backgroun
 .k{font-size:12px;letter-spacing:.3em;color:var(--gold);text-align:center}
 h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:38px;line-height:1.3;text-align:center;margin:10px 0}
 h1 em{font-style:normal;color:var(--gold)}
-.lead{text-align:center;color:#cfd6e6;line-height:1.85;font-size:15px}
+.lead{text-align:center;color:#cfd6e6;line-height:1.6;font-size:15px}
 .btn{display:block;width:100%;font:inherit;font-weight:700;font-size:16.5px;border:0;border-radius:14px;padding:15px;cursor:pointer;
   background:linear-gradient(180deg,#f8dc8a,#e5b94e);color:#2a1d05;box-shadow:0 8px 26px #e5b94e44;text-align:center;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--text);border:1px solid #ffffff33;box-shadow:none}
@@ -60,7 +60,7 @@ input.name:focus{border-color:var(--gold)}
 .qcard{background:#ffffff0d;border:1px solid #ffffff1f;border-radius:18px;padding:16px 16px 14px;animation:up .4s ease}
 @keyframes up{from{opacity:0;transform:translateY(10px)}}
 .badge{display:inline-block;font-size:12px;font-weight:700;color:#2a1d05;background:var(--gold);border-radius:99px;padding:3px 10px}
-.qtext{font-family:"Noto Serif TC",serif;font-size:18px;line-height:1.85;margin:10px 0 12px}
+.qtext{font-family:"Noto Serif TC",serif;font-size:18px;line-height:1.6;margin:10px 0 12px}
 .qtext u{text-decoration:none;border-bottom:2px solid var(--gold);padding:0 10px;color:var(--gold)}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .opt{font:inherit;font-size:16px;font-weight:700;color:var(--text);background:#ffffff12;border:1.5px solid #ffffff2a;border-radius:12px;padding:12px 8px;cursor:pointer;transition:.15s}
@@ -68,16 +68,16 @@ input.name:focus{border-color:var(--gold)}
 .opt.no{opacity:.35;border-color:#e3263f88;animation:shake .35s}
 .opt.yes{background:#2fbf7133;border-color:var(--green)}
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.hint{font-size:13.5px;color:var(--gold2);margin-top:10px;line-height:1.7;min-height:1px}
-.explain{margin-top:12px;background:#2fbf711a;border:1px solid #2fbf7155;border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.75}
+.hint{font-size:13.5px;color:var(--gold2);margin-top:10px;line-height:1.5;min-height:1px}
+.explain{margin-top:12px;background:#2fbf711a;border:1px solid #2fbf7155;border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.55}
 .explain b{color:#7ff0b0}
 .explain small{display:block;color:var(--muted);margin-top:2px}
 /* verse */
 .verse{background:linear-gradient(160deg,#fff8ec,#ffeccf);color:#2b2420;border-radius:20px;padding:22px 20px;margin:6px 0 12px;box-shadow:0 14px 40px #0008;animation:up .6s ease}
 .verse .to{font-size:13px;color:#a07a2a;letter-spacing:.15em;text-align:center}
-.verse .vt{font-family:"Noto Serif TC",serif;font-size:20px;line-height:2;margin:10px 0 8px;font-weight:700}
+.verse .vt{font-family:"Noto Serif TC",serif;font-size:20px;line-height:1.55;margin:10px 0 8px;font-weight:700}
 .verse .ref{text-align:right;font-size:14px;color:#7a6650}
-.verse .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:16px;line-height:1.7;color:#4a3f36;margin:14px 0 6px;padding-top:12px;border-top:1px dashed #d9c6a3}
+.verse .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:16px;line-height:1.45;color:#4a3f36;margin:14px 0 6px;padding-top:12px;border-top:1px dashed #d9c6a3}
 .row{display:flex;gap:8px;margin-top:9px}
 .row>*{flex:1;margin:0}
 .mbtn{position:fixed;top:calc(env(safe-area-inset-top) + 10px);right:max(10px,calc(50% - 250px));z-index:50;width:36px;height:36px;border-radius:50%;border:1px solid #ffffff33;background:#00000055;color:#fff;font-size:16px;cursor:pointer;display:none}
@@ -103,9 +103,9 @@ const Snd=(()=>{
   const N={C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196,A3:220,B3:246.94,C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,B4:493.88,
     C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880,B5:987.77,C6:1046.5,D6:1174.66,E6:1318.51,F6:1396.91,G6:1567.98};
   const SONGS=[
-    {bpm:62,bar:6,mel:"G5 1.5,A5 .5,G5 1,E5 3,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,B5 3,C6 2,C6 1,G5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,F6 1.5,D6 .5,B5 1,C6 3,E6 3,C6 1,G5 1,E5 1,G5 1.5,F5 .5,D5 1,C5 6",
+    {bpm:88,bar:6,mel:"G5 1.5,A5 .5,G5 1,E5 3,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,B5 3,C6 2,C6 1,G5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,A5 2,A5 1,C6 1.5,B5 .5,A5 1,G5 1.5,A5 .5,G5 1,E5 3,D6 2,D6 1,F6 1.5,D6 .5,B5 1,C6 3,E6 3,C6 1,G5 1,E5 1,G5 1.5,F5 .5,D5 1,C5 6",
      bass:"C3 C3 G3 C3 F3 C3 F3 C3 G3 C3 G3 C3"},
-    {bpm:84,bar:4,mel:"C6 1,B5 .75,A5 .25,G5 1.5,F5 .5,E5 1,D5 1,C5 1.5,G5 .5,A5 1.5,A5 .5,B5 1.5,B5 .5,C6 3,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,F5 .25,G5 1.25,F5 .5,E5 .5,D5 .5,D5 .5,D5 .5,D5 .25,E5 .25,F5 1.5,E5 .5,D5 .5,C5 .5,C6 1,A5 .5,G5 .75,F5 .25,E5 .5,F5 .5,E5 1,D5 1,C5 3",
+    {bpm:112,bar:4,mel:"C6 1,B5 .75,A5 .25,G5 1.5,F5 .5,E5 1,D5 1,C5 1.5,G5 .5,A5 1.5,A5 .5,B5 1.5,B5 .5,C6 3,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,C6 .5,C6 .5,B5 .5,A5 .5,G5 .5,G5 .75,F5 .25,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,E5 .5,F5 .25,G5 1.25,F5 .5,E5 .5,D5 .5,D5 .5,D5 .5,D5 .25,E5 .25,F5 1.5,E5 .5,D5 .5,C5 .5,C6 1,A5 .5,G5 .75,F5 .25,E5 .5,F5 .5,E5 1,D5 1,C5 3",
      bass:""}
   ];
   let ctx=null, mus=null, sfx=null, musicOn=true, started=false, timer=null, si=0, ni=0, t0=0, notes=[], beat=0, unlocked=false;
@@ -143,7 +143,7 @@ const Snd=(()=>{
     const ahead=ctx.currentTime+.7;
     while(t0<ahead){
       if(ni>=notes.length){ si++; load(t0+beat*4); continue; }
-      const [n,d]=notes[ni++]; box(mus,N[n],t0,.16,Math.max(.8,d*beat*1.5)); t0+=d*beat;
+      const [n,d]=notes[ni++]; box(mus,N[n],t0,.16,Math.max(.5,d*beat*1.2)); t0+=d*beat;
     }
   }
   function tone(f1,f2,t,len,vol){
@@ -331,7 +331,6 @@ function showVerse(){
     <div class="row">
       <a id="line" class="btn" target="_blank" rel="noopener" style="flex:0 0 84px;background:#06C755;color:#fff;box-shadow:none;padding:0;display:flex;align-items:center;justify-content:center">LINE</a>
       <button class="btn ghost" id="sh">分享</button>
-      <button class="btn ghost" id="again2">換一句經文</button>
     </div>
     <button class="btn ghost" id="replay" style="margin-top:9px">🎄 再爬一次</button>
     <a class="homelink" href="./good-news.html" style="display:none;text-align:center;color:var(--gold);font-size:14px;margin-top:14px;text-decoration:none">🌟 另一個遊戲：這個佳音，傳到你了 →</a>
@@ -342,7 +341,6 @@ function showVerse(){
   $("line").href="https://line.me/R/share?text="+encodeURIComponent(full);
   $("line").addEventListener("click",()=>Snd.fx("send"));
   $("sh").onclick=async()=>{ Snd.fx("send"); if(navigator.share && url){ try{ await navigator.share({text:full}); return; }catch(e){ if(e&&e.name==="AbortError") return; } } copy(full); };
-  $("again2").onclick=()=>{ Snd.fx("tap"); let n; do{ n=BLESS[Math.floor(Math.random()*BLESS.length)]; }while(n===S.verse && BLESS.length>1); S.verse=n; showVerse(); Snd.fx("star"); };
   $("replay").onclick=()=>{ Snd.fx("tap"); cover(); window.scrollTo(0,0); };
   try{ $("qa").scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
 }
